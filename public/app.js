@@ -14,33 +14,44 @@ angular.module('fixme').config(function($mdThemingProvider, $mdIconProvider){
 });
 
 angular.module('fixme').factory('userProfile', function(){
-    var user={};
+    var _user={};
     return{
-        setUserProfile : function(updated_user){
-            user = updated_user;
+        setUser : function(updated_user){
+            _user = updated_user;
         },
-        getUserProfile: function(){
-            return user;
+        getUser : function(){
+            return _user
         }
     }
 });
 
 
 angular.module('fixme').controller('mainCtrl', function($scope, $mdSidenav, userProfile){
+
+
     $scope.signOut = function(){
         var auth2 = gapi.auth2.getAuthInstance();
         auth2.signOut().then(function () {
             console.log('User signed out.');
+            $scope.user = {};
+            $scope.loggedIn = false;
+            $scope.$apply();
+
         });
     }
+
     
     $scope.updateUserInfo = function(googleUser){
-        var user={};
+        var u={};
+        $scope.loggedIn = true;
+
         var profile = googleUser.getBasicProfile();
-        user.name = profile.getName();
-        user.img = profile.getImageUrl();
-        user.email = profile.getEmail();
-        userProfile.setUserProfile(user);
+        profile.getName() ? u.name = profile.getName() : u.name = 'User-Name'
+        profile.getImageUrl() ? u.img = profile.getImageUrl() : u.img = 'assets/img/avatar_unknown.png'
+        profile.getEmail() ? u.email = profile.getEmail() : u.email = 'user@gmail.com'
+
+        $scope.user = u;
+        $scope.$apply();
     }
 });
 

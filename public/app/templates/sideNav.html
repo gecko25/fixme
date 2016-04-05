@@ -3,11 +3,12 @@
         class="md-sidenav-left"
         md-component-id="left"
         md-is-locked-open="$mdMedia('gt-sm')">
-    <md-toolbar>
-        <h1>
-            Side Nav OMG!
-        </h1>
-    </md-toolbar>
+    <md-toolbar></md-toolbar>
+
+    <div class="avatar-container">
+        <img ng-show="user.img" ng-src={{user.img}}>
+        <div>{{user.email}}</div>
+    </div>
 </md-sidenav>
 
 

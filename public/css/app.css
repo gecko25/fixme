@@ -1,2 +1,23 @@
+body {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-size: 14px; }
+
+.toolbar-container {
+  text-align: right;
+  width: 100%; }
+  .toolbar-container .button {
+    font-size: 10px; }
+
+.avatar-container {
+  margin-top: 20px;
+  text-align: center; }
+  .avatar-container img {
+    border-radius: 100%;
+    width: 25%;
+    margin-bottom: 10px; }
+
+.login-panel {
+  padding: 0px 30px; }
+
 md-content {
   padding: 10px; }

@@ -21,20 +21,21 @@
     <script src="vendor/underscore/underscore-min.js"></script>
 
     <!--styles-->
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:300' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="vendor/angular-material/angular-material.css">
     <link rel="stylesheet" href="vendor/angular-material-icons/angular-material-icons.css">
     <link rel="stylesheet" href="css/app.css" type="text/css">
  </head>
 
-<body layout="row" ng-controller="mainCtrl">
+<body layout="row" ng-controller="mainCtrl" ng-cloak>
 
     <fm-side-nav layout="column"></fm-side-nav>
 
     <div layout="column" flex>
         <fm-toolbar-header></fm-toolbar-header>
         <md-content flex>
-            <div class="login-panel">
-                <h1>Login to this app</h1>
+            <div class="login-panel" ng-show="!loggedIn">
+                <h2>Welcome to Fix Me!</h2>
                 <div id="google-user" class="g-signin2" data-onsuccess="onSignIn"r></div>
             </div>
         </md-content>

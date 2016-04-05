@@ -3,6 +3,8 @@ angular.module('fixme').directive('fmToolbarHeader', function(){
         templateUrl: 'app/templates/toolbarHeader.html',
         restrict: 'E',
         controller: function($scope, $mdSidenav){
+
+            
             $scope.toggleSideNav = function(){
                 $mdSidenav('left').toggle();
             }
