@@ -27,7 +27,7 @@ gulp.task('browser-sync', ['nodemon'], function(){
             port: 4001
         })
 
-    }, 250);
+    }, 500);
 });
 
 /* Watch file changes, restart server with nodemon */
@@ -36,8 +36,8 @@ gulp.task('nodemon', ['styles', 'compile-js'], function setupNodemon(cb){
     var started = false;
     nodemon({
         script: config.server,           //what is nodemon going to run on server restart?
-        ext: 'js html',	                 //what extentions to watch for changes (i.e when .js file changes, restart!)
-        ignore: ['/node_modules/**/*', 'public/fixme.js'],  //do NOT restart when these files change
+        ext: 'js',	                 //what extentions to watch for changes (i.e when .js file changes, restart!)
+        ignore: ['/node_modules/**/*', 'public/**/*'],  //do NOT restart when these files change
     }).on('start', function start(){
         if (!started){
             cb();
@@ -47,6 +47,7 @@ gulp.task('nodemon', ['styles', 'compile-js'], function setupNodemon(cb){
 
     gulp.watch(config.sass, ['styles']);
     gulp.watch('public/app/**/*.js', ['compile-js']);
+    gulp.watch('')
 
 });
 
@@ -59,6 +60,8 @@ gulp.task('styles', function() {
         .pipe(sass() )
         .pipe(autoprefixer(config.supportedBrowsers))
         .pipe(gulp.dest('public/css'))
+        .pipe(browserSync.stream());
+
 });
 
 /*
@@ -75,7 +78,8 @@ gulp.task("compile-js", function () {
         }))
         .pipe(concat("fixme.js"))
         .pipe(sourcemaps.write('.'))
-        .pipe(gulp.dest(config.public));
+        .pipe(gulp.dest(config.public))
+        .pipe(browserSync.stream());
 });
 
 

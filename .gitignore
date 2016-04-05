@@ -1,0 +1,13 @@
+node_modules/
+public/vendor/
+public/fixme.js
+public/fixme.js.map
+
+#Webstorm
+.idea/workspace.xml
+
+#Mac OS
+.DS_Store
+
+#Secret information
+server/config/credentials.js
