@@ -1,9 +1,9 @@
 Node.js service that allows users to type in their symptoms, be diagnosed, and recommended doctors near them.
 
 ### Getting started ###
-`npm install`
+`npm install`   //installs all server-side dependencies from package.json 
 
-`bower install`
+`bower install`  //installs all client-side dependencies from bower.json 
 
 `gulp serve`
 
@@ -21,3 +21,4 @@ https://developer.betterdoctor.com
 - angular
 - angular material
 - express
+- ES6 features (transpiled thru babel)
