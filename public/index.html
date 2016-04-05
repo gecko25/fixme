@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="fixme">
+<head>
+    <meta charset="UTF-8">
+    <title>Fix Me</title>
+    <!--Google login-->
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+
+    <!--Resetting scale-->
+    <meta name="google-signin-client_id" content="616255681272-uruebgsde3hbdgru79pjkb7t9ucrd48t.apps.googleusercontent.com">
+
+    <!--Vendor stuff-->
+    <script src="vendor/jquery/dist/jquery.min.js"></script>
+    <script src="vendor/angular/angular.min.js"></script>
+    <script src="vendor/angular-animate/angular-animate.min.js"></script>
+    <script src="vendor/angular-aria/angular-aria.min.js"></script>
+    <script src="vendor/angular-messages/angular-messages.min.js"></script>
+    <script src="vendor/angular-material/angular-material.js"></script>
+    <script src="vendor/angular-material-icons/angular-material-icons.js"></script>
+    <script src="vendor/underscore/underscore-min.js"></script>
+
+    <!--styles-->
+    <link rel="stylesheet" href="vendor/angular-material/angular-material.css">
+    <link rel="stylesheet" href="vendor/angular-material-icons/angular-material-icons.css">
+    <link rel="stylesheet" href="css/app.css" type="text/css">
+ </head>
+
+<body layout="row" ng-controller="mainCtrl">
+
+    <fm-side-nav layout="column"></fm-side-nav>
+
+    <div layout="column" flex>
+        <fm-toolbar-header></fm-toolbar-header>
+        <md-content flex>
+            <div class="login-panel">
+                <h1>Login to this app</h1>
+                <div id="google-user" class="g-signin2" data-onsuccess="onSignIn"r></div>
+            </div>
+        </md-content>
+    </div>
+
+
+    <script>
+        function onSignIn(googleUser) {
+            //https://developers.google.com/identity/sign-in/web/sign-in#get_profile_information
+            angular.element('#google-user').scope().updateUserInfo(googleUser);
+        }
+    </script>
+    <script src="app.js"></script>
+    <script src="fixme.js"></script>
+</body>
+</html>

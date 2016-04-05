@@ -1,0 +1,37 @@
+{
+  "name": "fix-me",
+  "description": "Find a doctor that suits your symptoms",
+  "main": "app.js",
+  "authors": [
+    "Sara Tankard"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "medicines",
+    "doctor",
+    "medical",
+    "healthcare"
+  ],
+  "moduleType": [
+    "amd",
+    "es6",
+    "node"
+  ],
+  "homepage": "thelathe.com",
+  "private": true,
+  "ignore": [
+    "node_modules",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.5.3",
+    "jquery": "~2.1.4",
+    "angular-route": "~1.4.7",
+    "angular-material": "^1.0.7",
+    "underscore": "^1.8.3"
+  },
+  "resolutions": {
+    "angular": "~1.4.7"
+  }
+}
