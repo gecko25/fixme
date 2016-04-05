@@ -13,8 +13,8 @@ Node.js service that allows users to type in their symptoms, be diagnosed, and r
 - To download gulp, go to project root dir: `npm install -g gulp`(you made need to throw `sudo` in front of that)
 
 ### APIS ###
-https://developer.infermedica.com/docs/api
-https://developer.betterdoctor.com
+* https://developer.infermedica.com/docs/api
+* https://developer.betterdoctor.com
 
 ### Frameworks ###
 - node.js
