@@ -3,16 +3,23 @@
             <md-icon md-svg-icon="menu"></md-icon>
         </md-button>
 
-        <md-menu>
+        <md-menu md-position-mode="target-right target">
             <md-button aria-label="Open demo menu" ng-click="$mdOpenMenu($event)">
-                <img class="avatar" ng-click="signOut()" ng-show="user.img" ng-src={{user.img}}>
+                <img class="avatar" ng-show="user.img" ng-src={{user.img}}>
             </md-button>
             <md-menu-content width="3">
                 <md-menu-item>
-                    <md-button>
+                    <md-button ng-click="signOut()">
                         Logout
                     </md-button>
                 </md-menu-item>
+
+                <md-menu-item>
+                    <md-button>
+                        Settings
+                    </md-button>
+                </md-menu-item>
+
             </md-menu-content>
         </md-menu>
 

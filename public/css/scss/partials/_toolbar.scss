@@ -9,15 +9,19 @@ md-toolbar{
         height: 100% !important;
         max-width: 80px !important;
         padding-top: 8px;
+        padding-right: 8px;
 
          button.md-button{
             height: 100% !important;
             padding: 0;
             margin: 0;
+            max-width: 60px !important;
+            min-width: 60px !important;
+            text-align: right;
 
              img.avatar{
                 height: 85%;
-                 border-radius: 100%;
+                border-radius: 100%;
              }
          }
     }

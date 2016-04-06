@@ -29,16 +29,7 @@ angular.module('fixme').factory('userProfile', function(){
 angular.module('fixme').controller('mainCtrl', function($scope, $mdSidenav, userProfile){
 
 
-    $scope.signOut = function(){
-        var auth2 = gapi.auth2.getAuthInstance();
-        auth2.signOut().then(function () {
-            console.log('User signed out.');
-            $scope.user = {};
-            $scope.loggedIn = false;
-            $scope.$apply();
 
-        });
-    }
 
     
     $scope.updateUserInfo = function(googleUser){
