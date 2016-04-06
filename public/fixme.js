@@ -1,5 +1,14 @@
 'use strict';
 
+angular.module('fixme').directive('fmFindDoctor', function () {
+    return {
+        templateUrl: 'app/templates/findDoctor.html',
+        restrict: 'E',
+        controller: function controller($scope) {}
+    };
+});
+'use strict';
+
 angular.module('fixme').directive('fmFooter', function () {
     return {
         templateUrl: 'app/templates/footer.html',
@@ -16,24 +25,24 @@ angular.module('fixme').directive('fmLoginPanel', function () {
 });
 'use strict';
 
-angular.module('fixme').directive('fmSideNav', function () {
+angular.module('fixme').directive('fmSideNav', function (pageState) {
     return {
         templateUrl: 'app/templates/sideNav.html',
         restrict: 'E',
         controller: function controller($scope) {
-            /*$scope.$watch(
-                function() {
-                    return userProfile.getUser();
-                },
-                function(newUser, oldUser){
-                    console.log('newUser:')
-                    console.log(newUser);
-                    $scope.user = newUser;
-                     console.log('oldUser:')
-                    console.log(oldUser);
-                }
-            );*/
+            $scope.showContent = function (newPageState) {
+                pageState.updatePageStage(newPageState);
+            };
         }
+    };
+});
+'use strict';
+
+angular.module('fixme').directive('fmSymptomPicker', function () {
+    return {
+        templateUrl: 'app/templates/symptomPicker.html',
+        restrict: 'E',
+        controller: function controller($scope) {}
     };
 });
 'use strict';

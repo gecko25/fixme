@@ -38,6 +38,9 @@
                 <h2>Welcome to Fix Me!</h2>
                 <div id="google-user" class="g-signin2" data-onsuccess="onSignIn"r></div>
             </div>
+            <fm-symptom-picker ng-show="showPage.symptomPicker && loggedIn"></fm-symptom-picker>
+            <fm-find-doctor ng-show="showPage.findDoctor && loggedIn"></fm-find-doctor>
+
             <fm-footer></fm-footer>
         </md-content>
     </div>

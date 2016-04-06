@@ -35,7 +35,8 @@ fm-side-nav {
   background-color: #2196F3; }
   fm-side-nav md-content.sidenav-content {
     background-color: #2196F3;
-    color: white; }
+    color: white;
+    text-align: center; }
   fm-side-nav md-toolbar {
     text-align: center;
     font-weight: 500px; }
@@ -47,6 +48,10 @@ fm-side-nav {
 
 .login-panel {
   padding: 0px 30px; }
+
+fm-symptom-picker md-autocomplete {
+  width: 50%;
+  margin: 20px auto 10px; }
 
 footer {
   width: 300px;

@@ -1,0 +1,26 @@
+<md-autocomplete required
+                 md-no-cache="false"
+                 md-auto-focus=true
+                 md-input-name="autocomplete"
+                 md-search-text="searchText"
+                 md-search-text-change=""
+                 md-items="item in searchSymptoms(searchText)"
+                 md-min-length="1"
+                 md-item-text= "item.displayName"
+                 md-selected-item="selectedSymptom"
+                 placeholder="What are your symptoms?">
+
+    <md-item-template>
+        <span class="item-title" md-highlight-text="searchText" md-highlight-flags="^i">
+            {{item.prop}}
+        </span>
+    </md-item-template>
+
+    <md-not-found>
+        No symptoms found. <span style="font-size:0.7em; font-style: italic">Try again.</span>
+    </md-not-found>
+
+    <div ng-messages="locationAndDateForm.autocomplete.$error">
+        <div ng-message="required">This field is required</div>
+    </div>
+</md-autocomplete>

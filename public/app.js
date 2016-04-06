@@ -13,6 +13,7 @@ angular.module('fixme').config(function($mdThemingProvider, $mdIconProvider){
         .icon('menu', 'assets/svg/menu.svg', 24)
 });
 
+
 angular.module('fixme').factory('userProfile', function(){
     var _user={};
     return{
@@ -25,13 +26,33 @@ angular.module('fixme').factory('userProfile', function(){
     }
 });
 
+angular.module('fixme').factory('pageState', function(){
+    var _showPage = {
+        symptomPicker : true,
+        findDoctor: false,
+        about: false
+    }
+    return{
+        getPageState : function(){
+            return _showPage;
+        },
+        updatePageStage : function(newPageState){
+            for (var page in _showPage){
+                if (page === newPageState)
+                    _showPage[page] = true;
+                else
+                    _showPage[page] = false;
+            }
+        }
+    }
+});
 
-angular.module('fixme').controller('mainCtrl', function($scope, $mdSidenav, userProfile){
 
 
+angular.module('fixme').controller('mainCtrl', function($scope, $mdSidenav, pageState){
+    $scope.loggedIn = false;
+    $scope.showPage = pageState.getPageState();
 
-
-    
     $scope.updateUserInfo = function(googleUser){
         var u={};
         $scope.loggedIn = true;
@@ -44,6 +65,8 @@ angular.module('fixme').controller('mainCtrl', function($scope, $mdSidenav, user
         $scope.user = u;
         $scope.$apply();
     }
+
+    $scope.showSymptomPicker = true;
 });
 
 
