@@ -9,17 +9,18 @@ var headers = {
     };
 
 exports.generateSymptoms = function(req, res) {
-    var authOptions = {
+    var options = {
         url: 'https://api.infermedica.com/v2/symptoms',
         headers: headers,
         json: true
     };
 
-    request.post(authOptions, function(error, response, body) {
+    request.get(options, function(error, response, body) {
         if (error)
-            console.log(error);
+            console.log('Error! ${error}');
         if (body)
-            console.log(body)
+            res.json(body);
+
     });
 
 };

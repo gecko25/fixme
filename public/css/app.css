@@ -41,7 +41,8 @@ fm-side-nav {
     text-align: center;
     font-weight: 500px; }
     fm-side-nav md-toolbar.fix-me-logo {
-      font-size: 2.5em; }
+      font-size: 2.5em;
+      font-family: 'Roboto Slab'; }
       fm-side-nav md-toolbar.fix-me-logo img {
         width: 35%;
         margin: 20px auto 5px; }
