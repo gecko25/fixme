@@ -1,10 +1,21 @@
 <md-toolbar class="md-hue-2">
-    <div class="md-toolbar-tools">
         <md-button ng-click="toggleSideNav()" hide-gt-sm class="md-icon-button">
             <md-icon md-svg-icon="menu"></md-icon>
         </md-button>
-        <div class="toolbar-container">
-            <button ng-click="signOut()">Sign out</button>
-        </div>
-    </div>
+
+        <md-menu>
+            <md-button aria-label="Open demo menu" ng-click="$mdOpenMenu($event)">
+                <img class="avatar" ng-click="signOut()" ng-show="user.img" ng-src={{user.img}}>
+            </md-button>
+            <md-menu-content width="3">
+                <md-menu-item>
+                    <md-button>
+                        Logout
+                    </md-button>
+                </md-menu-item>
+            </md-menu-content>
+        </md-menu>
+
+
+
 </md-toolbar>

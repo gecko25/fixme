@@ -1,8 +1,27 @@
-.toolbar-container{
-   text-align: right;
-   width:100%;
+md-toolbar{
+    position: relative;
+    text-align: right;
 
-  .button{
-    font-size: 10px;
-  }
+    .md-menu{
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        height: 100% !important;
+        max-width: 80px !important;
+        padding-top: 8px;
+
+         button.md-button{
+            height: 100% !important;
+            padding: 0;
+            margin: 0;
+
+             img.avatar{
+                height: 85%;
+                 border-radius: 100%;
+             }
+         }
+    }
+
+
 }
+

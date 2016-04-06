@@ -2,22 +2,68 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
   font-size: 14px; }
 
-.toolbar-container {
-  text-align: right;
-  width: 100%; }
-  .toolbar-container .button {
-    font-size: 10px; }
+.main-content {
+  position: relative; }
 
-.avatar-container {
-  margin-top: 20px;
-  text-align: center; }
-  .avatar-container img {
-    border-radius: 100%;
-    width: 25%;
-    margin-bottom: 10px; }
+a {
+  text-decoration: none;
+  color: #1565C0; }
+
+md-toolbar {
+  position: relative;
+  text-align: right; }
+  md-toolbar .md-menu {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    height: 100% !important;
+    max-width: 80px !important;
+    padding-top: 8px; }
+    md-toolbar .md-menu button.md-button {
+      height: 100% !important;
+      padding: 0;
+      margin: 0; }
+      md-toolbar .md-menu button.md-button img.avatar {
+        height: 85%;
+        border-radius: 100%; }
+
+fm-side-nav {
+  background-color: #2196F3; }
+  fm-side-nav md-content.sidenav-content {
+    background-color: #2196F3;
+    color: white; }
+  fm-side-nav md-toolbar {
+    text-align: center;
+    font-weight: 500px; }
+    fm-side-nav md-toolbar.fix-me-logo {
+      font-size: 2.5em; }
+      fm-side-nav md-toolbar.fix-me-logo img {
+        width: 35%;
+        margin: 20px auto 5px; }
 
 .login-panel {
   padding: 0px 30px; }
+
+footer {
+  width: 300px;
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  margin-left: -150px;
+  font-size: 0.75em;
+  text-align: center;
+  padding-top: 20px; }
+  footer p {
+    padding: 0;
+    margin: 0; }
+  footer .social-icon {
+    height: 30px;
+    width: 30px;
+    padding: 5px;
+    margin: 0 5px; }
+  footer .under-construction {
+    width: 60px;
+    margin: auto; }
 
 md-content {
   padding: 10px; }

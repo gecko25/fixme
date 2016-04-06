@@ -1,10 +1,23 @@
-.avatar-container{
-    margin-top:20px;
-    text-align:center;
+fm-side-nav{
+    background-color: #2196F3;
 
-    img{
-        border-radius: 100%;
-        width: 25%;
-        margin-bottom:10px;
+    md-content.sidenav-content{
+        background-color: #2196F3;
+        color: white;
+    }
+
+
+    md-toolbar{
+        text-align: center;
+        font-weight: 500px;
+
+        &.fix-me-logo{
+            img{
+                width: 35%;
+                margin: 20px auto 5px;
+            }
+            font-size: 2.5em;
+        }
     }
 }
+

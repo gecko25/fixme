@@ -29,15 +29,16 @@
 
 <body layout="row" ng-controller="mainCtrl" ng-cloak>
 
-    <fm-side-nav layout="column"></fm-side-nav>
+    <fm-side-nav ng-cloak layout="column"></fm-side-nav>
 
     <div layout="column" flex>
-        <fm-toolbar-header></fm-toolbar-header>
-        <md-content flex>
+        <fm-toolbar-header ng-cloak></fm-toolbar-header>
+        <md-content class="main-content" flex>
             <div class="login-panel" ng-show="!loggedIn">
                 <h2>Welcome to Fix Me!</h2>
                 <div id="google-user" class="g-signin2" data-onsuccess="onSignIn"r></div>
             </div>
+            <fm-footer></fm-footer>
         </md-content>
     </div>
 
@@ -50,5 +51,7 @@
     </script>
     <script src="app.js"></script>
     <script src="fixme.js"></script>
+
+
 </body>
 </html>
