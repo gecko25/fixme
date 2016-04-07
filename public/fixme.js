@@ -31,18 +31,61 @@ angular.module('fixme').directive('fmSideNav', function (pageState) {
         restrict: 'E',
         controller: function controller($scope) {
             $scope.showContent = function (newPageState) {
-                pageState.updatePageStage(newPageState);
+                if (!$scope.loggedIn) {
+                    $scope.loginReminder = 'Please login first';
+                    $scope.animate = "";
+                    setTimeout(function () {
+                        $scope.animate = "shake";
+                    }, 0);
+                } else {
+                    pageState.updatePageStage(newPageState);
+                }
             };
         }
     };
 });
 'use strict';
 
-angular.module('fixme').directive('fmSymptomPicker', function () {
+angular.module('fixme').directive('fmSymptomPicker', function ($http) {
     return {
         templateUrl: 'app/templates/symptomPicker.html',
         restrict: 'E',
-        controller: function controller($scope) {}
+        controller: function controller($scope, $q) {
+            //on page startup, get data
+            $http({
+                method: 'GET',
+                url: '/api/symptoms'
+            }).then(function (response) {
+                $scope.symptoms = response.data;
+                console.log($scope.symptoms);
+            }, function (response) {
+                console.log('There was an error!');
+                console.log(response);
+            });
+
+            //function called when text changes in autocomplete
+            $scope.searchSymptoms = function (searchText) {
+                var re = new RegExp('^' + searchText, "i");
+                var matches = [];
+
+                var deferred = $q.defer();
+
+                try {
+                    $scope.symptoms.forEach(function (symptom) {
+                        //search the array for matching expressions
+                        if (re.test(symptom.name)) {
+                            matches.push(symptom);
+                            deferred.resolve(matches);
+                        }
+                    });
+                } catch (e) {
+                    deferred.reject(null);
+                }
+
+                //return matches;
+                return deferred.promise;
+            };
+        }
     };
 });
 'use strict';

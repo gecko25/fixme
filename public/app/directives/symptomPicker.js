@@ -15,20 +15,15 @@ angular.module('fixme').directive('fmSymptomPicker', function($http){
                 console.log(response);
             });
 
-            //on text change in autocomplete
 
+            //function called when text changes in autocomplete
             $scope.searchSymptoms = function(searchText){
                 var re = new RegExp('^' + searchText, "i");
+                var matches = [];
 
                 var deferred = $q.defer();
 
-
-                console.log('Searching with regex:')
-                console.log(re);
-
                 try{
-                    var matches = [];
-
                     $scope.symptoms.forEach( (symptom) => {
                         //search the array for matching expressions
                         if (re.test(symptom.name)){
@@ -36,7 +31,6 @@ angular.module('fixme').directive('fmSymptomPicker', function($http){
                             deferred.resolve(matches);
                         }
                     });
-
 
                 }catch(e){
                     deferred.reject(null);

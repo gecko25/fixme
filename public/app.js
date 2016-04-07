@@ -30,7 +30,8 @@ angular.module('fixme').factory('pageState', function(){
     var _showPage = {
         symptomPicker : true,
         findDoctor: false,
-        about: false
+        about: false,
+        
     }
     return{
         getPageState : function(){
@@ -51,7 +52,14 @@ angular.module('fixme').factory('pageState', function(){
 
 angular.module('fixme').controller('mainCtrl', function($scope, $mdSidenav, pageState){
     $scope.loggedIn = false;
+    $scope.loginReminder = '';
     $scope.showPage = pageState.getPageState();
+    $scope.animate = "";
+
+    
+    $scope.removeLoginReminderMsg = function(){
+        $scope.loginReminder = '';
+    };
 
     $scope.updateUserInfo = function(googleUser){
         var u={};
@@ -66,7 +74,6 @@ angular.module('fixme').controller('mainCtrl', function($scope, $mdSidenav, page
         $scope.$apply();
     }
 
-    $scope.showSymptomPicker = true;
 });
 
 

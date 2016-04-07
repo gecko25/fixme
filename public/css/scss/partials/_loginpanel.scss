@@ -1,3 +1,14 @@
 .login-panel{
       padding: 0px 30px;
+
+      .login-reminder{
+        font-family: 'Roboto Slab';
+        margin-top: 20px;
+        color: red;
+      }
+}
+
+.shake{
+	//animation: shake 0.5s ease-out;
+	@include prefix(animation, shake 0.5s ease-out, webkit);
 }

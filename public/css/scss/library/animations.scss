@@ -1,3 +1,17 @@
-/**
- * Created by stankard on 4/7/16.
- */
+@include keyframes("shake") {
+  0%{
+    @include transform(translateX(-15px));
+  }
+  25%{
+    @include transform(translateX(15px));
+  }
+  50%{
+    @include transform(translateX(-15px));
+  }
+  75%{
+    @include transform(translateX(15px));
+  }
+  100%{
+    @include transform(translateX(0px));
+  }
+}
