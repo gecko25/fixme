@@ -6,13 +6,13 @@
                  md-search-text-change=""
                  md-items="item in searchSymptoms(searchText)"
                  md-min-length="1"
-                 md-item-text= "item.displayName"
+                 md-item-text= "item.name"
                  md-selected-item="selectedSymptom"
                  placeholder="What are your symptoms?">
 
     <md-item-template>
-        <span class="item-title" md-highlight-text="searchText" md-highlight-flags="^i">
-            {{item.prop}}
+        <span style="color:black" class="item-title" md-highlight-text="searchText" md-highlight-flags="^i">
+            {{item.name}}
         </span>
     </md-item-template>
 
@@ -20,7 +20,7 @@
         No symptoms found. <span style="font-size:0.7em; font-style: italic">Try again.</span>
     </md-not-found>
 
-    <div ng-messages="locationAndDateForm.autocomplete.$error">
+    <div ng-messages="symptomForm.autocomplete.$error">
         <div ng-message="required">This field is required</div>
     </div>
 </md-autocomplete>
