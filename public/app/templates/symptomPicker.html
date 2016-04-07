@@ -1,26 +1,21 @@
-<md-autocomplete required
-                 md-no-cache="false"
-                 md-auto-focus=true
-                 md-input-name="autocomplete"
-                 md-search-text="searchText"
-                 md-search-text-change=""
-                 md-items="item in searchSymptoms(searchText)"
-                 md-min-length="1"
-                 md-item-text= "item.name"
-                 md-selected-item="selectedSymptom"
-                 placeholder="What are your symptoms?">
+<md-chips ng-model="selectedSymptoms" md-autocomplete-snap
+          md-require-match="true">
+    <md-autocomplete
+            md-selected-item="selectedSymptom"
+            md-search-text="searchText"
+            md-items="item in searchSymptoms(searchText)"
+            md-item-text="item.name"
+            placeholder="What are your symptoms?">
+        <span md-highlight-text="searchText">{{item.name}}</span>
 
-    <md-item-template>
-        <span style="color:black" class="item-title" md-highlight-text="searchText" md-highlight-flags="^i">
-            {{item.name}}
+        <md-not-found>
+            No symptoms found. <span style="font-size:0.7em; font-style: italic">Try again.</span>
+        </md-not-found>
+    </md-autocomplete>
+
+    <md-chip-template>
+        <span>
+          {{$chip.name}}
         </span>
-    </md-item-template>
-
-    <md-not-found>
-        No symptoms found. <span style="font-size:0.7em; font-style: italic">Try again.</span>
-    </md-not-found>
-
-    <div ng-messages="symptomForm.autocomplete.$error">
-        <div ng-message="required">This field is required</div>
-    </div>
-</md-autocomplete>
+    </md-chip-template>
+</md-chips>

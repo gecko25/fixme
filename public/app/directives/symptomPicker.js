@@ -16,6 +16,8 @@ angular.module('fixme').directive('fmSymptomPicker', function($http){
             });
 
 
+            $scope.selectedSymptoms = [];
+
             //function called when text changes in autocomplete
             $scope.searchSymptoms = function(searchText){
                 var re = new RegExp('^' + searchText, "i");
@@ -39,7 +41,6 @@ angular.module('fixme').directive('fmSymptomPicker', function($http){
                 //return matches;
                 return deferred.promise;
             }
-
 
         } 
     }

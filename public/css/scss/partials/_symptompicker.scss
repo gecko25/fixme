@@ -1,7 +1,12 @@
 fm-symptom-picker{
         md-autocomplete{
             width:50%;
-            margin: 20px auto 10px;
+            margin: 10px auto 10px;
+        }
+
+
+        md-chip{
+            bottom: -10px;
         }
 
 }
