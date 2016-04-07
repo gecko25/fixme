@@ -1,21 +1,36 @@
-<md-chips ng-model="selectedSymptoms" md-autocomplete-snap
-          md-require-match="true">
-    <md-autocomplete
-            md-selected-item="selectedSymptom"
-            md-search-text="searchText"
-            md-items="item in searchSymptoms(searchText)"
-            md-item-text="item.name"
-            placeholder="What are your symptoms?">
-        <span md-highlight-text="searchText">{{item.name}}</span>
+<form name="symptompicker" ng-submit="submitSymptoms()">
+    <md-chips ng-model="selectedSymptoms" md-autocomplete-snap
+              md-require-match="true">
+        <md-autocomplete
+                ng-required
+                md-selected-item="selectedSymptom"
+                md-search-text="searchText"
+                md-items="item in searchSymptoms(searchText)"
+                md-item-text="item.name"
+                placeholder="What are your symptoms?">
+            <span md-highlight-text="searchText">{{item.name}}</span>
 
-        <md-not-found>
-            No symptoms found. <span style="font-size:0.7em; font-style: italic">Try again.</span>
-        </md-not-found>
-    </md-autocomplete>
+            <md-not-found>
+                No symptoms found. <span style="font-size:0.7em; font-style: italic">Try again.</span>
+            </md-not-found>
+        </md-autocomplete>
 
-    <md-chip-template>
-        <span>
-          {{$chip.name}}
-        </span>
-    </md-chip-template>
-</md-chips>
+        <md-chip-template>
+            <span>
+              {{$chip.name}}
+            </span>
+        </md-chip-template>
+    </md-chips>
+
+    <div ng-messages="symptompicker.autocomplete.$error">
+        <div ng-message="required">This field is required</div>
+    </div>
+
+
+    <md-button type="submit"
+               class="md-raised md-primary md-hue-1">
+        Diagnose me!
+    </md-button>
+
+</form>
+

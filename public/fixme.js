@@ -25,6 +25,40 @@ angular.module('fixme').directive('fmLoginPanel', function () {
 });
 'use strict';
 
+angular.module('fixme').directive('fmSettings', function (pageState) {
+    return {
+        templateUrl: 'app/templates/settings.html',
+        restrict: 'E',
+        controller: function controller($scope, $http) {
+            $scope.data = {
+                gender: '',
+                age: ''
+            };
+
+            $scope.showContent = function (newPageState) {
+                console.log('going to update to.. ' + newPageState);
+                pageState.updatePageStage(newPageState);
+            };
+
+            $scope.savePatientData = function () {
+
+                $http({
+                    method: 'PATCH',
+                    url: '/api/user',
+                    headers: 'Content-Type: application/json',
+                    data: $scope.data
+                }).then(function (response) {
+                    console.log(response);
+                }, function (response) {
+                    console.log('There was an error!');
+                    console.log(response);
+                });
+            };
+        }
+    };
+});
+'use strict';
+
 angular.module('fixme').directive('fmSideNav', function (pageState) {
     return {
         templateUrl: 'app/templates/sideNav.html',
@@ -63,6 +97,8 @@ angular.module('fixme').directive('fmSymptomPicker', function ($http) {
                 console.log(response);
             });
 
+            $scope.selectedSymptoms = [];
+
             //function called when text changes in autocomplete
             $scope.searchSymptoms = function (searchText) {
                 var re = new RegExp('^' + searchText, "i");
@@ -84,6 +120,20 @@ angular.module('fixme').directive('fmSymptomPicker', function ($http) {
 
                 //return matches;
                 return deferred.promise;
+            };
+
+            $scope.submitSymptoms = function () {
+                $http({
+                    method: 'POST',
+                    url: '/api/diagnosis',
+                    data: selectedSymptoms
+                }).then(function (response) {
+                    console.log(response);
+                    console.log($scope.symptoms);
+                }, function (response) {
+                    console.log('There was an error!');
+                    console.log(response);
+                });
             };
         }
     };

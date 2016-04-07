@@ -1,0 +1,15 @@
+<form name="userSettings" ng-submit="savePatientData()" class="settings-container">
+    <md-input-container>
+        <label>Age</label>
+        <input type="text" ng-model="data.age">
+    </md-input-container>
+    <md-radio-group ng-model="data.gender">
+        <md-radio-button value="female" class="md-primary">Female</md-radio-button>
+        <md-radio-button value="male">Male</md-radio-button>
+    </md-radio-group>
+
+    <md-button type="submit" md-primary>
+        Save
+    </md-button>
+</form>
+

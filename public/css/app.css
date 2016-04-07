@@ -103,7 +103,7 @@ fm-side-nav {
     text-align: center; }
   fm-side-nav md-toolbar {
     text-align: center;
-    font-weight: 500px; }
+    font-weight: 500; }
     fm-side-nav md-toolbar.fix-me-logo {
       font-size: 2.5em;
       font-family: 'Roboto Slab'; }
@@ -124,7 +124,23 @@ fm-side-nav {
 
 fm-symptom-picker md-autocomplete {
   width: 50%;
-  margin: 20px auto 10px; }
+  margin: 10px auto 10px; }
+
+fm-symptom-picker md-chip {
+  bottom: -10px; }
+
+.settings-container {
+  margin: 0 5vw; }
+  .settings-container md-input-container {
+    width: 20vw;
+    margin: 20px 0 0;
+    padding: 5px 0;
+    font-size: 1.25em; }
+  .settings-container button {
+    padding: 0;
+    margin: 15px;
+    text-align: center;
+    margin-left: -2.5vw; }
 
 footer {
   width: 300px;

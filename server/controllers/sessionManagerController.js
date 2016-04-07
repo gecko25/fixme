@@ -1,10 +1,13 @@
 module.exports = {
-  buildUserObjectFromSession : function(req,res){
+  updateUserObjectFromSession : function(req,res){
+      req.session.age = req.body.age;
+      req.session.gender = req.body.gender;
+
+    //TODO: make this read all the keys on the req.body and add to user (i.e not just update age/gender)    
     return {
-      id: req.session.user_id,
-      name: '',
-      email: '',
-      avatar: ''
+      age: req.body.age,
+      gender: req.body.gender
     }
+      
   }
 }

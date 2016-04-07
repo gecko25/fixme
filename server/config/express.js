@@ -2,6 +2,7 @@ var express = require('express'); // Express web server framework
 var cookieSession = require('cookie-session');
 var config = require('./config')
 var credentials = require('./credentials')
+var bodyParser = require('body-parser');
 
 module.exports = function (app){
   var sess = {
@@ -14,5 +15,11 @@ module.exports = function (app){
   app.use(express.static( config.rootPath + '/public'))
      .use(cookieSession(sess))
 
-     //TODO: body-parser configuration, template engine configuration
+//TODO: template engine configuration
+
+  // parse application/x-www-form-urlencoded
+  app.use(bodyParser.urlencoded({ extended: false }))
+  
+  // parse application/json
+  app.use(bodyParser.json())
 }

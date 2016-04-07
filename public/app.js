@@ -30,7 +30,7 @@ angular.module('fixme').factory('pageState', function(){
     var _showPage = {
         symptomPicker : true,
         findDoctor: false,
-        about: false,
+        settings: false,
         
     }
     return{
@@ -56,7 +56,7 @@ angular.module('fixme').controller('mainCtrl', function($scope, $mdSidenav, page
     $scope.showPage = pageState.getPageState();
     $scope.animate = "";
 
-    
+
     $scope.removeLoginReminderMsg = function(){
         $scope.loginReminder = '';
     };

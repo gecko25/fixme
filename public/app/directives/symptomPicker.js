@@ -14,8 +14,7 @@ angular.module('fixme').directive('fmSymptomPicker', function($http){
                 console.log('There was an error!');
                 console.log(response);
             });
-
-
+            
             $scope.selectedSymptoms = [];
 
             //function called when text changes in autocomplete
@@ -40,6 +39,20 @@ angular.module('fixme').directive('fmSymptomPicker', function($http){
 
                 //return matches;
                 return deferred.promise;
+            }
+
+            $scope.submitSymptoms = function(){
+                $http({
+                    method: 'POST',
+                    url: '/api/diagnosis',
+                    data: selectedSymptoms
+                }).then((response) => {
+                    console.log(response);
+                    console.log($scope.symptoms);
+                }, (response) => {
+                    console.log('There was an error!');
+                    console.log(response);
+                });
             }
 
         } 
