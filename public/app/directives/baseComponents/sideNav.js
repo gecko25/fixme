@@ -5,11 +5,12 @@ angular.module('fixme').directive('fmSideNav', function(pageState, $mdSidenav){
         controller: function($scope){
             $scope.showContentAndCloseSideNav = function(newPageState){
                 if (!$scope.loggedIn){
+                    $mdSidenav('left').close();
                     $scope.loginReminder = 'Please login first';
-                    $scope.animate = "";
+                    $scope.animateShake = "";
                     setTimeout(
-                        ()=>{$scope.animate = "shake";}
-                        ,0
+                        ()=>{$scope.animateShake = "shake";}
+                        ,100
                     );
 
                 }else{

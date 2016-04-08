@@ -37,7 +37,7 @@ angular.module('fixme').directive('fmSettings', function(pageState, $cookies, $m
 
                 $mdToast.show(toast).then(function(response) {
                     if ( response == 'ok' ) {
-                        alert('navigate to main screen')
+                        $scope.showContent('symptomPicker')
                     }
                 });
             }

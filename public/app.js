@@ -20,7 +20,7 @@ angular.module('fixme').controller('mainCtrl', function($scope, $mdSidenav, page
     $scope.loggedIn = false;
     $scope.loginReminder = '';
     $scope.showPage = pageState.getPageState();
-    $scope.animate = "";
+    $scope.animateShake = "";
     $scope.user = {};
 
 
@@ -29,7 +29,6 @@ angular.module('fixme').controller('mainCtrl', function($scope, $mdSidenav, page
     };
 
     $scope.showContent = function(newPageState){
-        console.log('going to update to.. ' + newPageState)
         pageState.updatePageStage(newPageState);
     }
 

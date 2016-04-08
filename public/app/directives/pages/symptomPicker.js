@@ -2,7 +2,7 @@ angular.module('fixme').directive('fmSymptomPicker', function(loadIntermedicaDat
     return {
         templateUrl: 'app/templates/pages/symptomPicker.html',
         restrict: 'E',
-        controller: function($scope, $q){
+        controller: function($scope, $q, $http){
             //on page startup, get data
             loadIntermedicaData.symptoms()
                 .then(
@@ -15,6 +15,7 @@ angular.module('fixme').directive('fmSymptomPicker', function(loadIntermedicaDat
             $scope.selectedSymptoms = [];
 
             //function called when text changes in autocomplete
+            //TODO: if it doesn't exist, allow user to search
             $scope.searchSymptoms = function(searchText){
                 var re = new RegExp('^' + searchText, "i");
                 var matches = [];
@@ -38,11 +39,25 @@ angular.module('fixme').directive('fmSymptomPicker', function(loadIntermedicaDat
                 return deferred.promise;
             }
 
+
+            $scope.transformChip = function(chip){
+                // If it is an object, it's already a known chip
+                if (typeof chip === 'object') {
+                    return chip;
+                }
+                // Otherwise, create a new one
+                return { name: chip, searchRequired: true}
+            }
+
             $scope.submitSymptoms = function(){
+
+                console.log('Going to submit:')
+                console.log($scope.selectedSymptoms);
+
                 $http({
                     method: 'POST',
                     url: '/api/diagnosis',
-                    data: selectedSymptoms
+                    data: $scope.selectedSymptoms
                 }).then((response) => {
                     console.log(response);
                     console.log($scope.symptoms);
@@ -51,6 +66,7 @@ angular.module('fixme').directive('fmSymptomPicker', function(loadIntermedicaDat
                     console.log(response);
                 });
             }
+
 
         } 
     }

@@ -40,7 +40,7 @@
             <div class="login-panel" ng-show="!loggedIn">
                 <h2>Welcome to Fix Me!</h2>
                 <div id="google-user" class="g-signin2" data-onsuccess="onSignIn" ng-click="removeLoginReminderMsg()"></div>
-                <div class="login-reminder" ng-class="animate">{{loginReminder}}</div>
+                <div class="login-reminder" ng-class="animateShake">{{loginReminder}}</div>
             </div>
             <fm-symptom-picker ng-show="showPage.symptomPicker && loggedIn"></fm-symptom-picker>
             <fm-find-doctor ng-show="showPage.findDoctor && loggedIn"></fm-find-doctor>

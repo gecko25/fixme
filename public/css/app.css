@@ -132,6 +132,9 @@ fm-symptom-picker md-chip {
 fm-symptom-picker button[type="submit"] {
   margin: 20px 10px; }
 
+md-virtual-repeat-container {
+  min-width: 400px; }
+
 .settings-container {
   margin: 0 5vw; }
   .settings-container p {
