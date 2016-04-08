@@ -124,13 +124,20 @@ fm-side-nav {
 
 fm-symptom-picker md-autocomplete {
   width: 50%;
-  margin: 10px auto 10px; }
+  margin: 10px auto 0px; }
 
 fm-symptom-picker md-chip {
   bottom: -10px; }
 
+fm-symptom-picker button[type="submit"] {
+  margin: 20px 10px; }
+
 .settings-container {
   margin: 0 5vw; }
+  .settings-container p {
+    font-family: 'Roboto Slab';
+    font-weight: 500;
+    font-size: 1.25em; }
   .settings-container md-input-container {
     width: 20vw;
     margin: 20px 0 0;

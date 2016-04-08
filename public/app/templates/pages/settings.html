@@ -1,9 +1,11 @@
 <form name="userSettings" ng-submit="savePatientData()" class="settings-container">
+    <p>Please enter some basic information so we can best make a diagnosis.</p>
+
     <md-input-container>
         <label>Age</label>
-        <input type="text" ng-model="data.age">
+        <input type="text" ng-model="data.age" required>
     </md-input-container>
-    <md-radio-group ng-model="data.gender">
+    <md-radio-group ng-model="data.gender" required>
         <md-radio-button value="female" class="md-primary">Female</md-radio-button>
         <md-radio-button value="male">Male</md-radio-button>
     </md-radio-group>

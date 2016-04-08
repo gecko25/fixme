@@ -1,9 +1,9 @@
-angular.module('fixme').directive('fmSideNav', function(pageState){
+angular.module('fixme').directive('fmSideNav', function(pageState, $mdSidenav){
     return {
         templateUrl: 'app/templates/baseComponents/sideNav.html',
         restrict: 'E',
         controller: function($scope){
-            $scope.showContent = function(newPageState){
+            $scope.showContentAndCloseSideNav = function(newPageState){
                 if (!$scope.loggedIn){
                     $scope.loginReminder = 'Please login first';
                     $scope.animate = "";
@@ -13,6 +13,7 @@ angular.module('fixme').directive('fmSideNav', function(pageState){
                     );
 
                 }else{
+                    $mdSidenav('left').close();
                     pageState.updatePageStage(newPageState);
                 }
 

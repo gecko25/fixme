@@ -1,7 +1,9 @@
 var fixme = angular.module('fixme', [
     'ngMaterial',
     'ngMessages',
-    'ngMdIcons'
+    'ngMdIcons',
+    'ngCookies',
+    'rx'
 ]);
 
 angular.module('fixme').config(function($mdThemingProvider, $mdIconProvider){
@@ -19,6 +21,7 @@ angular.module('fixme').controller('mainCtrl', function($scope, $mdSidenav, page
     $scope.loginReminder = '';
     $scope.showPage = pageState.getPageState();
     $scope.animate = "";
+    $scope.user = {};
 
 
     $scope.removeLoginReminderMsg = function(){

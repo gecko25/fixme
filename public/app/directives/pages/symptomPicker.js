@@ -1,20 +1,17 @@
-angular.module('fixme').directive('fmSymptomPicker', function($http){
+angular.module('fixme').directive('fmSymptomPicker', function(loadIntermedicaData){
     return {
         templateUrl: 'app/templates/pages/symptomPicker.html',
         restrict: 'E',
         controller: function($scope, $q){
             //on page startup, get data
-            $http({
-                method: 'GET',
-                url: '/api/symptoms'
-            }).then((response) => {
-                $scope.symptoms = response.data;
-                console.log($scope.symptoms);
-            }, (response) => {
-                console.log('There was an error!');
-                console.log(response);
-            });
-            
+            loadIntermedicaData.symptoms()
+                .then(
+                    (response) => {
+                         $scope.symptoms = response.data;
+                },  (response) => {
+                         console.log('There was an error!' + response);
+                });
+
             $scope.selectedSymptoms = [];
 
             //function called when text changes in autocomplete

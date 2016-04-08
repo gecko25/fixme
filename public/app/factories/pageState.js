@@ -1,9 +1,8 @@
 angular.module('fixme').factory('pageState', function(){
     var _showPage = {
-        symptomPicker : true,
+        symptomPicker : false,
         findDoctor: false,
-        settings: false,
-
+        settings: true,
     }
     return{
         getPageState : function(){
