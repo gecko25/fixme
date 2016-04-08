@@ -1,6 +1,6 @@
 angular.module('fixme').directive('fmFindDoctor', function(){
     return {
-        templateUrl: 'app/templates/findDoctor.html',
+        templateUrl: 'app/templates/pages/findDoctor.html',
         restrict: 'E',
         controller: function($scope){
 

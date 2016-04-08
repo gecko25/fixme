@@ -14,42 +14,6 @@ angular.module('fixme').config(function($mdThemingProvider, $mdIconProvider){
 });
 
 
-angular.module('fixme').factory('userProfile', function(){
-    var _user={};
-    return{
-        setUser : function(updated_user){
-            _user = updated_user;
-        },
-        getUser : function(){
-            return _user
-        }
-    }
-});
-
-angular.module('fixme').factory('pageState', function(){
-    var _showPage = {
-        symptomPicker : true,
-        findDoctor: false,
-        settings: false,
-        
-    }
-    return{
-        getPageState : function(){
-            return _showPage;
-        },
-        updatePageStage : function(newPageState){
-            for (var page in _showPage){
-                if (page === newPageState)
-                    _showPage[page] = true;
-                else
-                    _showPage[page] = false;
-            }
-        }
-    }
-});
-
-
-
 angular.module('fixme').controller('mainCtrl', function($scope, $mdSidenav, pageState){
     $scope.loggedIn = false;
     $scope.loginReminder = '';
@@ -61,17 +25,23 @@ angular.module('fixme').controller('mainCtrl', function($scope, $mdSidenav, page
         $scope.loginReminder = '';
     };
 
-    $scope.updateUserInfo = function(googleUser){
-        var u={};
-        $scope.loggedIn = true;
+    $scope.showContent = function(newPageState){
+        console.log('going to update to.. ' + newPageState)
+        pageState.updatePageStage(newPageState);
+    }
 
+    $scope.updateUserInfo = function(googleUser){
+        $scope.loggedIn = true;
+        var u = {};
         var profile = googleUser.getBasicProfile();
+
         profile.getName() ? u.name = profile.getName() : u.name = 'User-Name'
         profile.getImageUrl() ? u.img = profile.getImageUrl() : u.img = 'assets/img/avatar_unknown.png'
         profile.getEmail() ? u.email = profile.getEmail() : u.email = 'user@gmail.com'
 
         $scope.user = u;
         $scope.$apply();
+
     }
 
 });

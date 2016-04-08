@@ -1,6 +1,6 @@
 angular.module('fixme').directive('fmToolbarHeader', function(){
     return {
-        templateUrl: 'app/templates/toolbarHeader.html',
+        templateUrl: 'app/templates/baseComponents/toolbarHeader.html',
         restrict: 'E',
         controller: function($scope, $mdSidenav){
 

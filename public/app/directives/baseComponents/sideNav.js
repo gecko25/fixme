@@ -1,6 +1,6 @@
 angular.module('fixme').directive('fmSideNav', function(pageState){
     return {
-        templateUrl: 'app/templates/sideNav.html',
+        templateUrl: 'app/templates/baseComponents/sideNav.html',
         restrict: 'E',
         controller: function($scope){
             $scope.showContent = function(newPageState){

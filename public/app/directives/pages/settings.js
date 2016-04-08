@@ -1,6 +1,6 @@
 angular.module('fixme').directive('fmSettings', function(pageState){
     return {
-        templateUrl: 'app/templates/settings.html',
+        templateUrl: 'app/templates/pages/settings.html',
         restrict: 'E',
         controller: function($scope, $http){
             $scope.data = {
@@ -8,12 +8,6 @@ angular.module('fixme').directive('fmSettings', function(pageState){
                 age: ''
             }
 
-            
-            $scope.showContent = function(newPageState){
-                console.log('going to update to.. ' + newPageState)
-                pageState.updatePageStage(newPageState);
-            }
-            
             $scope.savePatientData = function(){
 
                 $http({

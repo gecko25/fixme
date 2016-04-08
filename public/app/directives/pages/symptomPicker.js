@@ -1,6 +1,6 @@
 angular.module('fixme').directive('fmSymptomPicker', function($http){
     return {
-        templateUrl: 'app/templates/symptomPicker.html',
+        templateUrl: 'app/templates/pages/symptomPicker.html',
         restrict: 'E',
         controller: function($scope, $q){
             //on page startup, get data
