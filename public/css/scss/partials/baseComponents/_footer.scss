@@ -1,0 +1,28 @@
+footer {
+  width: 300px;
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  margin-left: -150px;
+  font-size: 0.75em;
+  text-align: center;
+  padding-top: 20px;
+
+  p{
+  padding: 0;
+  margin: 0;
+  }
+
+  .social-icon {
+    height: 30px;
+    width: 30px;
+    padding: 5px;
+    margin: 0 5px;
+  }
+
+  .under-construction {
+    width: 60px;
+    margin: auto;
+  }
+
+}

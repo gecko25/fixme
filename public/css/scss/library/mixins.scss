@@ -1,0 +1,28 @@
+@mixin prefix($property, $value, $prefixes: ()) {
+  @each $prefix in $prefixes {
+    #{'-'+ $prefix + '-' + $property}: $value;
+  }
+
+  #{$property}: $value;
+}
+
+@mixin keyframes($name) {
+  @-webkit-keyframes #{$name} {
+    @content;
+  }
+  @-moz-keyframes #{$name} {
+    @content;
+  }
+  @-o-keyframes #{$name} {
+    @content;
+  }
+  @keyframes #{$name} {
+    @content;
+  }
+}
+
+@mixin transform($property){
+  -webkit-transform: $property; /* Ch <36, Saf 5.1+, iOS, An =<4.4.4 */
+  -ms-transform: $property; /* IE 9 */
+  transform: $property; /* IE 10, Fx 16+, Op 12.1+ */
+}

@@ -1,0 +1,19 @@
+fm-symptom-picker{
+        md-autocomplete{
+            width:50%;
+            margin: 10px auto 0px;
+        }
+
+
+        md-chip{
+            bottom: -10px;
+        }
+
+        button[type="submit"]{
+          margin: 20px 10px;
+        }
+}
+
+md-virtual-repeat-container{
+  min-width:400px;
+}

@@ -1,0 +1,24 @@
+<md-sidenav
+        layout="column"
+        class="md-sidenav-left"
+        md-component-id="left"
+        md-is-locked-open="$mdMedia('gt-sm')"
+        id = "left">
+    <md-toolbar class='fix-me-logo'>
+        <img ng-src="assets/img/heart-stethoscope-white.png" alt="Fix Me Logo">
+        Fix me
+    </md-toolbar>
+
+
+    <md-content class="sidenav-content">
+        <md-button class="md-secondary" ng-click="showContentAndCloseSideNav('symptomPicker')">
+            Diagnose Me
+        </md-button>
+        <md-button class="md-secondary" ng-click="showContentAndCloseSideNav('findDoctor')">
+            Find a doctor
+        </md-button>
+    </md-content>
+
+</md-sidenav>
+
+

@@ -1,0 +1,24 @@
+
+.settings-container{
+  margin: 0 5vw;
+
+  p{
+    font-family: 'Roboto Slab';
+    font-weight: 500;
+    font-size: 1.25em;
+  }
+
+  md-input-container{
+    width: 20vw;
+    margin: 20px 0 0;
+    padding: 5px 0;
+    font-size: 1.25em;
+  }
+
+  button{
+    padding: 0;
+    margin: 15px;
+    text-align: center;
+    margin-left: -2.5vw;
+  }
+}

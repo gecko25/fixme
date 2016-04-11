@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="fixme">
+<head>
+    <meta charset="UTF-8">
+    <title>Fix Me</title>
+    <!--Google login-->
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+
+    <!--Resetting scale-->
+    <meta name="google-signin-client_id" content="616255681272-uruebgsde3hbdgru79pjkb7t9ucrd48t.apps.googleusercontent.com">
+
+    <!--Vendor stuff-->
+    <script src="vendor/jquery/dist/jquery.min.js"></script>
+    <script src="vendor/angular/angular.min.js"></script>
+    <script src="vendor/rxjs/dist/rx.all.min.js"></script>
+    <script src="vendor/rx-angular/dist/rx.angular.js"></script>
+    <script src="vendor/angular-animate/angular-animate.min.js"></script>
+    <script src="vendor/angular-aria/angular-aria.min.js"></script>
+    <script src="vendor/angular-messages/angular-messages.min.js"></script>
+    <script src="vendor/angular-material/angular-material.js"></script>
+    <script src="vendor/angular-material-icons/angular-material-icons.js"></script>
+    <script src="vendor/angular-cookies/angular-cookies.min.js"></script>
+    <script src="vendor/underscore/underscore-min.js"></script>
+
+    <!--styles-->
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:300' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="vendor/angular-material/angular-material.css">
+    <link rel="stylesheet" href="vendor/angular-material-icons/angular-material-icons.css">
+    <link rel="stylesheet" href="css/app.css" type="text/css">
+ </head>
+
+<body layout="row" ng-controller="mainCtrl" ng-cloak>
+
+    <fm-side-nav ng-cloak layout="column"></fm-side-nav>
+
+    <div layout="column" flex>
+        <fm-toolbar-header ng-cloak></fm-toolbar-header>
+        <md-content class="main-content" flex>
+            <div class="login-panel" ng-show="!loggedIn">
+                <h2>Welcome to Fix Me!</h2>
+                <div id="google-user" class="g-signin2" data-onsuccess="onSignIn" ng-click="removeLoginReminderMsg()"></div>
+                <div class="login-reminder" ng-class="animateShake">{{loginReminder}}</div>
+            </div>
+            <fm-symptom-picker ng-show="showPage.symptomPicker && loggedIn"></fm-symptom-picker>
+            <fm-find-doctor ng-show="showPage.findDoctor && loggedIn"></fm-find-doctor>
+            <fm-settings ng-show="showPage.settings && loggedIn"></fm-settings>
+
+            <fm-footer></fm-footer>
+        </md-content>
+    </div>
+
+
+    <script>
+        function onSignIn(googleUser) {
+            //https://developers.google.com/identity/sign-in/web/sign-in#get_profile_information
+            angular.element('#google-user').scope().updateUserInfo(googleUser);
+        }
+    </script>
+    <script src="app.js"></script>
+    <script src="fixme.js"></script>
+
+
+</body>
+</html>
