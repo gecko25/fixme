@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "init": "npm install",
-    "start": "./node_modules/gulp/bin/gulp.js serve"
+    "start": "./node_modules/gulp/bin/gulp.js serve",
+    "postinstall": "./node_modules/bower/bin/bower install"
   },
   "dependencies": {
     "body-parser": "^1.13.3",
