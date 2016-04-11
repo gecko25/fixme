@@ -47,7 +47,7 @@ var envs = {
 
     development: {
         env: env,
-        domain: 'tbd',
+        domain: 'fixme-lathe.herokuapp.com',
         redirect_uri: 'tbd',
         db: {
             url: 'tbd',
@@ -68,14 +68,13 @@ var envs = {
 
     production: {
         env: env,
-        domain: 'tbd',
+        domain: 'fixme-lathe.herokuapp.com',
 
         /*db: {
             url: 'mongodb://' + process.env.MOSAICGROUPS_USERNAME + ':' + process.env.MOSAICGROUPS_PASSWORD + '@ds027489.mongolab.com:27489/mosaicgroups',
             debugMode: false
         },*/
         rootPath: rootPath,
-        redirect_uri: 'tbd',
         http: {
             port: process.env.PORT || 80
         },
