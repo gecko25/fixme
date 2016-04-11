@@ -1,6 +1,4 @@
 node_modules/
-public/vendor/
-public/fixme.js
 public/fixme.js.map
 
 #Webstorm
