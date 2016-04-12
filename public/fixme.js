@@ -3,7 +3,7 @@
 angular.module('fixme').factory('loadIntermedicaData', function ($http) {
     return {
         symptoms: function symptoms() {
-            console.log('going to get symptoms...');
+            console.log('Loading symptoms from intermedica API..');
             return $http({
                 method: 'GET',
                 url: '/api/symptoms'
@@ -28,9 +28,9 @@ angular.module('fixme').factory('loadIntermedicaData', function ($http) {
 
 angular.module('fixme').factory('pageState', function () {
     var _showPage = {
-        symptomPicker: false,
+        symptomPicker: true,
         findDoctor: false,
-        settings: true
+        settings: false
     };
     return {
         getPageState: function getPageState() {
@@ -160,6 +160,7 @@ angular.module('fixme').directive('fmSettings', function (pageState, $cookies, $
                     $scope.data = {
                         gender: dataFromCookiesExist ? patientInfoCookie.gender : '',
                         age: dataFromCookiesExist ? patientInfoCookie.age : ''
+
                     };
                 }
             });

@@ -19,7 +19,8 @@ angular.module('fixme').directive('fmSettings', function(pageState, $cookies, $m
                     //if we have new user data, we need to check if cookies exists for their settings
                     $scope.data = {
                         gender: dataFromCookiesExist ? patientInfoCookie.gender : '',
-                        age: dataFromCookiesExist ? patientInfoCookie.age : ''
+                        age: dataFromCookiesExist ? patientInfoCookie.age : '',
+                        
                     }
                 }
             });
