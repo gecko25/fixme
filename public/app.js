@@ -16,22 +16,23 @@ angular.module('fixme').config(function($mdThemingProvider, $mdIconProvider){
 });
 
 
-angular.module('fixme').controller('mainCtrl', function($scope, $mdSidenav, pageState){
+angular.module('fixme').controller('mainCtrl', function($scope, $mdSidenav, pageState, $cookies){
+    //initialize globals
     $scope.loggedIn = false;
-    $scope.loginReminder = '';
     $scope.showPage = pageState.getPageState();
-    $scope.animateShake = "";
     $scope.user = {};
-
-
-    $scope.removeLoginReminderMsg = function(){
-        $scope.loginReminder = '';
-    };
-
     $scope.showContent = function(newPageState){
         pageState.updatePageStage(newPageState);
     }
 
+
+    //login panel
+    $scope.loginReminder = '';
+    $scope.animateShake = "";
+    $scope.removeLoginReminderMsg = function(){
+        $scope.loginReminder = '';
+    };
+    
     $scope.updateUserInfo = function(googleUser){
         $scope.loggedIn = true;
         var u = {};
@@ -44,8 +45,25 @@ angular.module('fixme').controller('mainCtrl', function($scope, $mdSidenav, page
         $scope.user = u;
         $scope.$apply();
 
-    }
 
+        loadLandingPage($cookies, $scope.user.email, pageState);
+
+    }
 });
 
+var loadLandingPage = function(cookies, email, pageState){
+    var patientInfoCookie = cookies.getObject(email);
+    var patientInfoCookieIsNotEmpty = _.isEmpty(patientInfoCookie) === false;
+
+
+    if (patientInfoCookie && patientInfoCookieIsNotEmpty){
+        if (patientInfoCookie.gender && patientInfoCookie.age){
+            console.log('Gender and age info exist, setting page to symptom picker');
+            pageState.updatePageStage('symptomPicker');
+        }
+    }else{
+        console.log('Gender and age info DONT exist, setting page to settings');
+        pageState.updatePageStage('settings');
+    }
+}
 

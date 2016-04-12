@@ -7,35 +7,17 @@ var config = require('./server/config/config');
 
 var app = express();
 
-if (process.env.NODE_ENV !== 'test') {
-    tracer.setLevel('log');
-}
-else {
-    tracer.setLevel('warn');
-}
 logger.log('configuring express');
 require('./server/config/express')(app);
 
 /*logger.log('configuring mongoose');
  require('./server/config/mongoose')();*/
 
-/*logger.log('configuring passport');
- require('./server/config/passport')();*/
-
-
 logger.log('configuring routes');
 require('./server/config/routes')(app);
 
-/*logger.log('configuring scheduler');
- require('./server/config/scheduler')();*/
-
 logger.log('configuring listener for http on port: ' + config.http.port);
 app.listen(config.http.port);
-
-/*if (config.env === 'development') {
- logger.log('configuring listener for https on port: ' + config.https.port);
- https.createServer(config.https.options, app).listen(config.https.port);
- }*/
 
 logger.log("Listening on port " + config.http.port);
 

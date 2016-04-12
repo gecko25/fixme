@@ -32,16 +32,21 @@
 
 <body layout="row" ng-controller="mainCtrl" ng-cloak>
 
+    <!--SIDE NAV-->
     <fm-side-nav ng-cloak layout="column"></fm-side-nav>
 
+    <!--MAIN CONTENT-->
     <div layout="column" flex>
         <fm-toolbar-header ng-cloak></fm-toolbar-header>
         <md-content class="main-content" flex>
+            <!--login page-->
             <div class="login-panel" ng-show="!loggedIn">
                 <h2>Welcome to Fix Me!</h2>
                 <div id="google-user" class="g-signin2" data-onsuccess="onSignIn" ng-click="removeLoginReminderMsg()"></div>
                 <div class="login-reminder" ng-class="animateShake">{{loginReminder}}</div>
             </div>
+
+            <!-- all other pages-->
             <fm-symptom-picker ng-show="showPage.symptomPicker && loggedIn"></fm-symptom-picker>
             <fm-find-doctor ng-show="showPage.findDoctor && loggedIn"></fm-find-doctor>
             <fm-settings ng-show="showPage.settings && loggedIn"></fm-settings>
