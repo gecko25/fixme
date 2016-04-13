@@ -16,6 +16,7 @@ Node.js service that allows users to type in their symptoms, be diagnosed, and r
 ### APIS ###
 * https://developer.infermedica.com/docs/api
 * https://developer.betterdoctor.com
+* http://www.programmableweb.com/category/medical
 
 ### Frameworks ###
 - node.js
