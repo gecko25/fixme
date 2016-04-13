@@ -20,6 +20,12 @@ angular.module('fixme').factory('loadIntermedicaData', function ($http) {
                 method: 'GET',
                 url: '/api/conditions'
             });
+        },
+        search_phrase: function search_phrase(text) {
+            return $http({
+                method: 'GET',
+                url: '/api/search/' + text
+            });
         }
 
     };
@@ -208,6 +214,15 @@ angular.module('fixme').directive('fmSymptomPicker', function (loadIntermedicaDa
             loadIntermedicaData.symptoms().then(function (response) {
                 $scope.symptoms = response.data;
                 console.log('Loaded symptom data from intermedica');
+                console.log($scope.symptoms);
+            }, function (response) {
+                console.log('There was an error!' + response);
+            });
+
+            //on page startup, get data
+            loadIntermedicaData.search_phrase('fatigue').then(function (response) {
+                $scope.symptoms = response.data;
+                console.log('Loaded search data from intermedica');
                 console.log($scope.symptoms);
             }, function (response) {
                 console.log('There was an error!' + response);

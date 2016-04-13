@@ -19,6 +19,13 @@ angular.module('fixme').factory('loadIntermedicaData', function($http){
                 url: '/api/conditions'
             });
         },
+        search_phrase: function(text){
+            return $http({
+                method: 'GET',
+                url: '/api/search/' + text
+            });
+        },
+
 
     }
 });

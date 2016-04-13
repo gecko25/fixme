@@ -14,6 +14,16 @@ angular.module('fixme').directive('fmSymptomPicker', function(loadIntermedicaDat
                          console.log('There was an error!' + response);
                 });
 
+            //on page startup, get data
+            loadIntermedicaData.search_phrase('fatigue')
+                .then(
+                    (response) => {
+                        $scope.symptoms = response.data;
+                        console.log('Loaded search data from intermedica')
+                        console.log($scope.symptoms);
+                    },  (response) => {
+                        console.log('There was an error!' + response);
+                    });
 
 
             $scope.selectedSymptoms = [];

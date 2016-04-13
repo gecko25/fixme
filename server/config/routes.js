@@ -11,10 +11,11 @@ var indexRedirect = function (req, res) {
 module.exports = function (app) {
    
 
-   app.get('/api/symptoms', infermedica.generateSymptoms);
+    app.get('/api/symptoms', infermedica.generateSymptoms);
+    app.get('/api/search/:phrase', infermedica.searchText);
 
-   app.post('/api/symptoms', infermedica.diagnose);
 
+    app.post('/api/symptoms', infermedica.diagnose);
     app.patch('/api/user', sessionManager.updateUserObjectFromSession);
 
 
