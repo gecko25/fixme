@@ -3,7 +3,7 @@
 angular.module('fixme').factory('loadIntermedicaData', function ($http) {
     return {
         symptoms: function symptoms() {
-            console.log('going to get symptoms...');
+            //console.log('Going to load symptom data from Intermedica...')
             return $http({
                 method: 'GET',
                 url: '/api/symptoms'
@@ -20,6 +20,12 @@ angular.module('fixme').factory('loadIntermedicaData', function ($http) {
                 method: 'GET',
                 url: '/api/conditions'
             });
+        },
+        search_phrase: function search_phrase(text) {
+            return $http({
+                method: 'GET',
+                url: '/api/search/' + text
+            });
         }
 
     };
@@ -28,9 +34,9 @@ angular.module('fixme').factory('loadIntermedicaData', function ($http) {
 
 angular.module('fixme').factory('pageState', function () {
     var _showPage = {
-        symptomPicker: false,
+        symptomPicker: true,
         findDoctor: false,
-        settings: true
+        settings: false
     };
     return {
         getPageState: function getPageState() {
@@ -160,6 +166,7 @@ angular.module('fixme').directive('fmSettings', function (pageState, $cookies, $
                     $scope.data = {
                         gender: dataFromCookiesExist ? patientInfoCookie.gender : '',
                         age: dataFromCookiesExist ? patientInfoCookie.age : ''
+
                     };
                 }
             });
@@ -206,6 +213,17 @@ angular.module('fixme').directive('fmSymptomPicker', function (loadIntermedicaDa
             //on page startup, get data
             loadIntermedicaData.symptoms().then(function (response) {
                 $scope.symptoms = response.data;
+                console.log('Loaded symptom data from intermedica');
+                console.log($scope.symptoms);
+            }, function (response) {
+                console.log('There was an error!' + response);
+            });
+
+            //on page startup, get data
+            loadIntermedicaData.search_phrase('fatigue').then(function (response) {
+                $scope.symptoms = response.data;
+                console.log('Loaded search data from intermedica');
+                console.log($scope.symptoms);
             }, function (response) {
                 console.log('There was an error!' + response);
             });
@@ -214,26 +232,13 @@ angular.module('fixme').directive('fmSymptomPicker', function (loadIntermedicaDa
 
             //function called when text changes in autocomplete
             //TODO: if it doesn't exist, allow user to search
+
             $scope.searchSymptoms = function (searchText) {
-                var re = new RegExp('^' + searchText, "i");
-                var matches = [];
-
-                var deferred = $q.defer();
-
-                try {
-                    $scope.symptoms.forEach(function (symptom) {
-                        //search the array for matching expressions
-                        if (re.test(symptom.name)) {
-                            matches.push(symptom);
-                            deferred.resolve(matches);
-                        }
-                    });
-                } catch (e) {
-                    deferred.reject(null);
-                }
-
-                //return matches;
-                return deferred.promise;
+                return searchIntermedicaData(searchText).then(function (items) {
+                    return items;
+                }, function (err) {
+                    console.log('There was an error' + err);
+                });
             };
 
             $scope.transformChip = function (chip) {
@@ -261,6 +266,35 @@ angular.module('fixme').directive('fmSymptomPicker', function (loadIntermedicaDa
                     console.log('There was an error!');
                     console.log(response);
                 });
+            };
+
+            var searchIntermedicaData = function searchIntermedicaData(searchText) {
+                var re = new RegExp('^' + searchText, "i");
+                var matches = [];
+                var lastItem = $scope.symptoms[$scope.symptoms.length - 1];
+                var deferred = $q.defer();
+
+                try {
+                    $scope.symptoms.forEach(function (symptom) {
+                        //search the array for matching expressions
+                        if (re.test(symptom.name)) {
+                            matches.push(symptom);
+                            deferred.resolve(matches);
+                        }
+
+                        if (symptom.name === lastItem.name && matches.length === 0) {
+                            //No results were found
+                            var customSymptom = { name: searchText, searchRequired: true };
+                            matches.push(customSymptom);
+                            deferred.resolve(matches);
+                        }
+                    });
+                } catch (e) {
+                    deferred.reject(null);
+                }
+
+                //return matches;
+                return deferred.promise;
             };
         }
     };

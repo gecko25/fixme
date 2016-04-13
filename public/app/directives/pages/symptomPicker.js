@@ -8,35 +8,36 @@ angular.module('fixme').directive('fmSymptomPicker', function(loadIntermedicaDat
                 .then(
                     (response) => {
                          $scope.symptoms = response.data;
+                         console.log('Loaded symptom data from intermedica')
+                        console.log($scope.symptoms);
                 },  (response) => {
                          console.log('There was an error!' + response);
                 });
+
+            //on page startup, get data
+            loadIntermedicaData.search_phrase('fatigue')
+                .then(
+                    (response) => {
+                        $scope.symptoms = response.data;
+                        console.log('Loaded search data from intermedica')
+                        console.log($scope.symptoms);
+                    },  (response) => {
+                        console.log('There was an error!' + response);
+                    });
+
 
             $scope.selectedSymptoms = [];
 
             //function called when text changes in autocomplete
             //TODO: if it doesn't exist, allow user to search
+
             $scope.searchSymptoms = function(searchText){
-                var re = new RegExp('^' + searchText, "i");
-                var matches = [];
-
-                var deferred = $q.defer();
-
-                try{
-                    $scope.symptoms.forEach( (symptom) => {
-                        //search the array for matching expressions
-                        if (re.test(symptom.name)){
-                            matches.push(symptom);
-                            deferred.resolve(matches);
-                        }
+                return searchIntermedicaData(searchText)
+                    .then( items => {
+                        return items
+                    }, err => {
+                        console.log('There was an error' + err)
                     });
-
-                }catch(e){
-                    deferred.reject(null);
-                }
-
-                //return matches;
-                return deferred.promise;
             }
 
 
@@ -67,6 +68,36 @@ angular.module('fixme').directive('fmSymptomPicker', function(loadIntermedicaDat
                 });
             }
 
+
+            var searchIntermedicaData = function(searchText){
+                var re = new RegExp('^' + searchText, "i");
+                var matches = [];
+                var lastItem = $scope.symptoms[$scope.symptoms.length - 1];
+                var deferred = $q.defer();
+
+                try{
+                    $scope.symptoms.forEach( (symptom) => {
+                        //search the array for matching expressions
+                        if (re.test(symptom.name)){
+                            matches.push(symptom);
+                            deferred.resolve(matches);
+                        }
+
+                        if (symptom.name === lastItem.name && matches.length === 0){
+                            //No results were found
+                            var customSymptom = { name: searchText, searchRequired: true};
+                            matches.push(customSymptom)
+                            deferred.resolve(matches);
+                        }
+                    });
+
+                }catch(e){
+                    deferred.reject(null);
+                }
+
+                //return matches;
+                return deferred.promise;
+            }
 
         } 
     }

@@ -1,7 +1,7 @@
 angular.module('fixme').factory('loadIntermedicaData', function($http){
     return{
         symptoms : function(){
-            console.log('going to get symptoms...')
+            //console.log('Going to load symptom data from Intermedica...')
             return $http({
                 method: 'GET',
                 url: '/api/symptoms'
@@ -19,6 +19,13 @@ angular.module('fixme').factory('loadIntermedicaData', function($http){
                 url: '/api/conditions'
             });
         },
+        search_phrase: function(text){
+            return $http({
+                method: 'GET',
+                url: '/api/search/' + text
+            });
+        },
+
 
     }
 });

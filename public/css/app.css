@@ -132,8 +132,21 @@ fm-symptom-picker md-chip {
 fm-symptom-picker button[type="submit"] {
   margin: 20px 10px; }
 
-md-virtual-repeat-container {
-  min-width: 400px; }
+md-chip-template {
+  font-size: 0.8em; }
+
+/* Input field (and children) are 100% width so that no text is cutoff*/
+.md-chips .md-chip-input-container {
+  text-align: left;
+  width: 100%; }
+
+.md-chips .md-chip-input-container md-autocomplete {
+  text-align: left;
+  width: 100%; }
+
+.md-chips .md-chip-input-container md-autocomplete md-autocomplete-wrap {
+  text-align: left;
+  width: 100%; }
 
 .settings-container {
   margin: 0 5vw; }
