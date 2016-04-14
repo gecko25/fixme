@@ -21,7 +21,6 @@ exports.generateSymptoms = function(req, res) {
             console.log('Error!' + error);
         if (body)
             res.json(body);
-
     });
 };
 
@@ -38,7 +37,6 @@ exports.searchText = function(req, res) {
         if (response)
             res.send(response.body)
     });
-
 };
 
 

@@ -1,9 +1,10 @@
 <form name="symptompicker" ng-submit="submitSymptoms()">
-    <md-chips ng-model="selectedSymptoms" md-autocomplete-snap
+    <md-chips required
+              ng-model="selectedSymptoms"
+              md-autocomplete-snap
               md-require-match="false"
               md-transform-chip="transformChip($chip)">
         <md-autocomplete
-                ng-required
                 md-selected-item="selectedSymptom"
                 md-search-text="searchText"
                 md-items="item in searchSymptoms(searchText)"
