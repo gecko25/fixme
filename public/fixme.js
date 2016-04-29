@@ -100,7 +100,7 @@ angular.module('fixme').directive('fmSideNav', function (pageState, $mdSidenav) 
                     $scope.animateShake = "";
                     setTimeout(function () {
                         $scope.animateShake = "shake";
-                    }, 100);
+                    }, 0);
                 } else {
                     $mdSidenav('left').close();
                     pageState.updatePageStage(newPageState);
@@ -219,15 +219,6 @@ angular.module('fixme').directive('fmSymptomPicker', function (loadIntermedicaDa
                 console.log('There was an error!' + response);
             });
 
-            //on page startup, get data
-            loadIntermedicaData.search_phrase('fatigue').then(function (response) {
-                $scope.symptoms = response.data;
-                console.log('Loaded search data from intermedica');
-                console.log($scope.symptoms);
-            }, function (response) {
-                console.log('There was an error!' + response);
-            });
-
             $scope.selectedSymptoms = [];
 
             //function called when text changes in autocomplete
@@ -237,7 +228,7 @@ angular.module('fixme').directive('fmSymptomPicker', function (loadIntermedicaDa
                 return searchIntermedicaData(searchText).then(function (items) {
                     return items;
                 }, function (err) {
-                    console.log('There was an error' + err);
+                    console.log('There was an error searching for data: ' + err);
                 });
             };
 
@@ -275,18 +266,36 @@ angular.module('fixme').directive('fmSymptomPicker', function (loadIntermedicaDa
                 var deferred = $q.defer();
 
                 try {
+                    //search the array for matching expressions
                     $scope.symptoms.forEach(function (symptom) {
-                        //search the array for matching expressions
+
+                        //regex match occured
                         if (re.test(symptom.name)) {
                             matches.push(symptom);
                             deferred.resolve(matches);
                         }
 
+                        //No results were found
                         if (symptom.name === lastItem.name && matches.length === 0) {
-                            //No results were found
-                            var customSymptom = { name: searchText, searchRequired: true };
-                            matches.push(customSymptom);
-                            deferred.resolve(matches);
+                            //add other options
+                            loadIntermedicaData.search_phrase(searchText).then(function (response) {
+                                var symptom_search_results = response.data;
+                                console.log(symptom_search_results);
+
+                                if (_.isEmpty(response.data)) {
+                                    deferred.resolve([]);
+                                } else {
+                                    symptom_search_results.forEach(function (symptom) {
+                                        matches.push({ name: symptom.label,
+                                            id: symptom.id,
+                                            searchRequired: true
+                                        });
+                                        deferred.resolve(matches);
+                                    });
+                                }
+                            }, function (response) {
+                                console.log('There was an error!' + response);
+                            });
                         }
                     });
                 } catch (e) {

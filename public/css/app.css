@@ -120,7 +120,7 @@ fm-side-nav {
 
 .shake {
   -webkit-animation: shake 0.5s ease-out;
-  animation: shake 0.5s ease-out; }
+          animation: shake 0.5s ease-out; }
 
 fm-symptom-picker md-autocomplete {
   width: 50%;

@@ -14,18 +14,6 @@ angular.module('fixme').directive('fmSymptomPicker', function(loadIntermedicaDat
                          console.log('There was an error!' + response);
                 });
 
-            //on page startup, get data
-            loadIntermedicaData.search_phrase('fatigue')
-                .then(
-                    (response) => {
-                        $scope.symptoms = response.data;
-                        console.log('Loaded search data from intermedica')
-                        console.log($scope.symptoms);
-                    },  (response) => {
-                        console.log('There was an error!' + response);
-                    });
-
-
             $scope.selectedSymptoms = [];
 
             //function called when text changes in autocomplete
@@ -36,7 +24,7 @@ angular.module('fixme').directive('fmSymptomPicker', function(loadIntermedicaDat
                     .then( items => {
                         return items
                     }, err => {
-                        console.log('There was an error' + err)
+                        console.log('There was an error searching for data: ' + err)
                     });
             }
 
@@ -76,18 +64,40 @@ angular.module('fixme').directive('fmSymptomPicker', function(loadIntermedicaDat
                 var deferred = $q.defer();
 
                 try{
+                    //search the array for matching expressions
                     $scope.symptoms.forEach( (symptom) => {
-                        //search the array for matching expressions
+
+                        //regex match occured
                         if (re.test(symptom.name)){
                             matches.push(symptom);
                             deferred.resolve(matches);
                         }
 
+                        //No results were found
                         if (symptom.name === lastItem.name && matches.length === 0){
-                            //No results were found
-                            var customSymptom = { name: searchText, searchRequired: true};
-                            matches.push(customSymptom)
-                            deferred.resolve(matches);
+                            //add other options
+                            loadIntermedicaData.search_phrase(searchText)
+                                .then(
+                                    (response) => {
+                                        var symptom_search_results = response.data;
+                                        console.log(symptom_search_results)
+
+                                        if ( _.isEmpty(response.data)){
+                                            deferred.resolve([]);
+                                        }else{
+                                            symptom_search_results.forEach( symptom => {
+                                                matches.push(
+                                                    { name: symptom.label,
+                                                        id: symptom.id,
+                                                        searchRequired: true
+                                                    });
+                                                deferred.resolve(matches);
+                                            })
+                                        }
+                                    },  (response) => {
+                                        console.log('There was an error!' + response);
+                                    });
+
                         }
                     });
 

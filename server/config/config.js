@@ -34,8 +34,7 @@ var envs = {
         rootPath: rootPath,
         http: {
             port: process.env.PORT || localport
-        },
-        redirect_uri: 'http://localhost:' + localport + '/showme',
+        }
         /*https: {
             port: process.env.SSLPORT || 3031,
             options: {
