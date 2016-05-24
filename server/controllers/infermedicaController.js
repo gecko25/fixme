@@ -3,6 +3,7 @@ var credentials = require('../config/credentials');
 var request = require('request');
 var colors = require('colors');
 var querystring = require('query-string');
+var infermedicaService = require('../services/infermedicaService');
 
 var headers = {
         'app_id': credentials.infermedica.app_id,
@@ -41,19 +42,21 @@ exports.searchText = function(req, res) {
 
 
 exports.diagnose = function(req, res) {
+
     var options = {
-        url: 'https://api.infermedica.com/v2/symptoms',
+        url: 'https://api.infermedica.com/v2/diagnosis',
         headers: headers,
-        json: true
+        json: true,
+        body: infermedicaService.createDiagnosis(req.body)
     };
 
-    request.get(options, function(error, response, body) {
+    request.post(options, function(error, response, body) {
         if (error)
-            console.log('Error! ${error}');
-        if (body)
+            console.log('Error!' + error);
+        if (response)
             res.json(body);
-
     });
+
 
 };
 

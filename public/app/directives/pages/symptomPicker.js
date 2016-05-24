@@ -2,7 +2,7 @@ angular.module('fixme').directive('fmSymptomPicker', function(loadIntermedicaDat
     return {
         templateUrl: 'app/templates/pages/symptomPicker.html',
         restrict: 'E',
-        controller: function($scope, $q, $http){
+        controller: function($scope, $q, $http, $cookies){
             //on page startup, get data
             loadIntermedicaData.symptoms()
                 .then(
@@ -39,17 +39,22 @@ angular.module('fixme').directive('fmSymptomPicker', function(loadIntermedicaDat
             }
 
             $scope.submitSymptoms = function(){
+                var diagnosisEntity = {};
+                diagnosisEntity.selectedSymptoms = $scope.selectedSymptoms;
+                diagnosisEntity.gender = $cookies.getObject($scope.user.email).gender;
+                diagnosisEntity.age = $cookies.getObject($scope.user.email).age;
 
                 console.log('Going to submit:')
-                console.log($scope.selectedSymptoms);
+                console.log(diagnosisEntity)
+
 
                 $http({
                     method: 'POST',
                     url: '/api/diagnosis',
-                    data: $scope.selectedSymptoms
+                    data: diagnosisEntity
                 }).then((response) => {
-                    console.log(response);
-                    console.log($scope.symptoms);
+                    console.log(response.data.question);
+                    //TODO: handle question 
                 }, (response) => {
                     console.log('There was an error!');
                     console.log(response);
