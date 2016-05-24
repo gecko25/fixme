@@ -2,8 +2,9 @@
   "name": "fixme",
   "version": "0.0.1",
   "description": "an app for demo purposes",
-  "engine": {
-    "node": "4.4.4"
+  "engines": {
+    "node": "4.4.4",
+    "npm": "3.9.2"
   },
   "private": true,
   "scripts": {
