@@ -343,8 +343,7 @@ angular.module('fixme').directive('fmSymptomPicker', function (loadIntermedicaDa
                 return { name: chip, searchRequired: true };
             };
 
-            $scope.submitSymptoms = function () {
-
+            $scope.submitChiefComplaint = function () {
                 var Diagnosis = $$Infermedica.createDiagnosisEntity($scope.selectedSymptoms);
                 Diagnosis.sex = $cookies.getObject($scope.user.email).gender;
                 Diagnosis.age = $cookies.getObject($scope.user.email).age;
@@ -358,7 +357,9 @@ angular.module('fixme').directive('fmSymptomPicker', function (loadIntermedicaDa
                     data: Diagnosis
                 }).then(function (response) {
                     console.log(response.data.question);
-                    //TODO: handle question
+                    //TODO: handle questions
+
+                    //save Diagnosis to cookies
                 }, function (response) {
                     console.log('There was an error!');
                     console.log(response);

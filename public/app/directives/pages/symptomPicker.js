@@ -38,24 +38,25 @@ angular.module('fixme').directive('fmSymptomPicker', function(loadIntermedicaDat
                 return { name: chip, searchRequired: true}
             }
 
-            $scope.submitSymptoms = function(){
-
-
+            $scope.submitChiefComplaint = function(){
                 var Diagnosis = $$Infermedica.createDiagnosisEntity($scope.selectedSymptoms);
                 Diagnosis.sex = $cookies.getObject($scope.user.email).gender;
                 Diagnosis.age = $cookies.getObject($scope.user.email).age;
 
                 console.log('Going to submit:')
                 console.log(Diagnosis)
-
-
+                
                 $http({
                     method: 'POST',
                     url: '/api/diagnosis',
                     data: Diagnosis
                 }).then((response) => {
                     console.log(response.data.question);
-                    //TODO: handle question
+                    //TODO: handle questions
+
+                    //save Diagnosis to cookies
+
+
                 }, (response) => {
                     console.log('There was an error!');
                     console.log(response);

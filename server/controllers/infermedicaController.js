@@ -3,7 +3,6 @@ var credentials = require('../config/credentials');
 var request = require('request');
 var colors = require('colors');
 var querystring = require('query-string');
-var infermedicaService = require('../services/infermedicaService');
 
 var headers = {
         'app_id': credentials.infermedica.app_id,
