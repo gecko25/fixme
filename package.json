@@ -1,6 +1,10 @@
 {
   "name": "fixme",
-  "version": "0.0.0",
+  "version": "0.0.1",
+  "description": "an app for demo purposes",
+  "engine": {
+    "node": "4.4.4"
+  },
   "private": true,
   "scripts": {
     "init": "npm install",
