@@ -43,11 +43,13 @@ exports.searchText = function(req, res) {
 
 exports.diagnose = function(req, res) {
 
+    console.log(req.body);
+
     var options = {
         url: 'https://api.infermedica.com/v2/diagnosis',
         headers: headers,
         json: true,
-        body: infermedicaService.createDiagnosis(req.body)
+        body: req.body
     };
 
     request.post(options, function(error, response, body) {

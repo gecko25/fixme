@@ -1,5 +1,107 @@
 'use strict';
 
+angular.module('fixme').factory('$$Infermedica', function ($http, $q) {
+    return {
+        searchIntermedicaData: function searchIntermedicaData($scope, searchText) {
+            var re = new RegExp('^' + searchText, "i");
+            var matches = [];
+            var lastItem = $scope.symptoms[$scope.symptoms.length - 1];
+            var deferred = $q.defer();
+
+            try {
+                //search the array for matching expressions
+                $scope.symptoms.forEach(function (symptom) {
+
+                    //regex match occured
+                    if (re.test(symptom.name)) {
+                        matches.push(symptom);
+                        deferred.resolve(matches);
+                    }
+
+                    //No results were found
+                    if (symptom.name === lastItem.name && matches.length === 0) {
+                        //add other options
+                        loadIntermedicaData.search_phrase(searchText).then(function (response) {
+                            var symptom_search_results = response.data;
+                            console.log(symptom_search_results);
+
+                            if (_.isEmpty(response.data)) {
+                                deferred.resolve([]);
+                            } else {
+                                symptom_search_results.forEach(function (symptom) {
+                                    matches.push({ name: symptom.label,
+                                        id: symptom.id,
+                                        searchRequired: true
+                                    });
+                                    deferred.resolve(matches);
+                                });
+                            }
+                        }, function (response) {
+                            console.log('There was an error!' + response);
+                        });
+                    }
+                });
+            } catch (e) {
+                deferred.reject(null);
+            }
+
+            //return matches;
+            return deferred.promise;
+        },
+
+        createDiagnosisEntity: function createDiagnosis(selectedSymptoms) {
+            var Diagnosis = {
+                sex: '',
+                age: '',
+                evidence: []
+            };
+
+            var _iteratorNormalCompletion = true;
+            var _didIteratorError = false;
+            var _iteratorError = undefined;
+
+            try {
+                for (var _iterator = selectedSymptoms[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                    var symptom = _step.value;
+
+                    Diagnosis = this.addSymptom(Diagnosis, symptom.id, 'present');
+                }
+            } catch (err) {
+                _didIteratorError = true;
+                _iteratorError = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion && _iterator.return) {
+                        _iterator.return();
+                    }
+                } finally {
+                    if (_didIteratorError) {
+                        throw _iteratorError;
+                    }
+                }
+            }
+
+            ;
+
+            return Diagnosis;
+        },
+
+        addSymptom: function addSymptom(Diagnosis, id, choice_id) {
+            if (Diagnosis.evidence) {
+                Diagnosis.evidence.push({
+                    "id": id,
+                    "choice_id": choice_id
+                });
+                return Diagnosis;
+            } else {
+                throw Error('Diagnosis object not configured correctly', Diagnosis);
+            }
+        }
+
+    };
+});
+'use strict';
+
 angular.module('fixme').factory('loadIntermedicaData', function ($http) {
     return {
         symptoms: function symptoms() {
@@ -209,7 +311,7 @@ angular.module('fixme').directive('fmSymptomPicker', function (loadIntermedicaDa
     return {
         templateUrl: 'app/templates/pages/symptomPicker.html',
         restrict: 'E',
-        controller: function controller($scope, $q, $http, $cookies) {
+        controller: function controller($scope, $q, $http, $cookies, $$Infermedica) {
             //on page startup, get data
             loadIntermedicaData.symptoms().then(function (response) {
                 $scope.symptoms = response.data;
@@ -225,7 +327,7 @@ angular.module('fixme').directive('fmSymptomPicker', function (loadIntermedicaDa
             //TODO: if it doesn't exist, allow user to search
 
             $scope.searchSymptoms = function (searchText) {
-                return searchIntermedicaData(searchText).then(function (items) {
+                return $$Infermedica.searchIntermedicaData($scope, searchText).then(function (items) {
                     return items;
                 }, function (err) {
                     console.log('There was an error searching for data: ' + err);
@@ -242,18 +344,18 @@ angular.module('fixme').directive('fmSymptomPicker', function (loadIntermedicaDa
             };
 
             $scope.submitSymptoms = function () {
-                var diagnosisEntity = {};
-                diagnosisEntity.selectedSymptoms = $scope.selectedSymptoms;
-                diagnosisEntity.gender = $cookies.getObject($scope.user.email).gender;
-                diagnosisEntity.age = $cookies.getObject($scope.user.email).age;
+
+                var Diagnosis = $$Infermedica.createDiagnosisEntity($scope.selectedSymptoms);
+                Diagnosis.sex = $cookies.getObject($scope.user.email).gender;
+                Diagnosis.age = $cookies.getObject($scope.user.email).age;
 
                 console.log('Going to submit:');
-                console.log(diagnosisEntity);
+                console.log(Diagnosis);
 
                 $http({
                     method: 'POST',
                     url: '/api/diagnosis',
-                    data: diagnosisEntity
+                    data: Diagnosis
                 }).then(function (response) {
                     console.log(response.data.question);
                     //TODO: handle question
@@ -261,53 +363,6 @@ angular.module('fixme').directive('fmSymptomPicker', function (loadIntermedicaDa
                     console.log('There was an error!');
                     console.log(response);
                 });
-            };
-
-            var searchIntermedicaData = function searchIntermedicaData(searchText) {
-                var re = new RegExp('^' + searchText, "i");
-                var matches = [];
-                var lastItem = $scope.symptoms[$scope.symptoms.length - 1];
-                var deferred = $q.defer();
-
-                try {
-                    //search the array for matching expressions
-                    $scope.symptoms.forEach(function (symptom) {
-
-                        //regex match occured
-                        if (re.test(symptom.name)) {
-                            matches.push(symptom);
-                            deferred.resolve(matches);
-                        }
-
-                        //No results were found
-                        if (symptom.name === lastItem.name && matches.length === 0) {
-                            //add other options
-                            loadIntermedicaData.search_phrase(searchText).then(function (response) {
-                                var symptom_search_results = response.data;
-                                console.log(symptom_search_results);
-
-                                if (_.isEmpty(response.data)) {
-                                    deferred.resolve([]);
-                                } else {
-                                    symptom_search_results.forEach(function (symptom) {
-                                        matches.push({ name: symptom.label,
-                                            id: symptom.id,
-                                            searchRequired: true
-                                        });
-                                        deferred.resolve(matches);
-                                    });
-                                }
-                            }, function (response) {
-                                console.log('There was an error!' + response);
-                            });
-                        }
-                    });
-                } catch (e) {
-                    deferred.reject(null);
-                }
-
-                //return matches;
-                return deferred.promise;
             };
         }
     };
