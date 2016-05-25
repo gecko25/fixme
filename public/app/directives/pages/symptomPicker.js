@@ -1,10 +1,10 @@
-angular.module('fixme').directive('fmSymptomPicker', function(loadIntermedicaData){
+angular.module('fixme').directive('fmSymptomPicker', function($$loadIntermedicaData){
     return {
         templateUrl: 'app/templates/pages/symptomPicker.html',
         restrict: 'E',
         controller: function($scope, $q, $http, $cookies, $$Infermedica){
             //on page startup, get data
-            loadIntermedicaData.symptoms()
+            $$loadIntermedicaData.symptoms()
                 .then(
                     (response) => {
                          $scope.symptoms = response.data;
@@ -20,7 +20,7 @@ angular.module('fixme').directive('fmSymptomPicker', function(loadIntermedicaDat
             //TODO: if it doesn't exist, allow user to search
 
             $scope.searchSymptoms = function(searchText){
-                return $$Infermedica.searchIntermedicaData($scope, searchText)
+                return $$Infermedica.searchIntermedicaData($scope.symptoms, searchText)
                     .then( items => {
                         return items
                     }, err => {

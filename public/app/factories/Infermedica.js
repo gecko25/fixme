@@ -1,14 +1,14 @@
-angular.module('fixme').factory('$$Infermedica', function($http, $q){
+angular.module('fixme').factory('$$Infermedica', function($http, $q, $$loadIntermedicaData){
     return{
-        searchIntermedicaData : function($scope, searchText){
+        searchIntermedicaData : function(symptoms, searchText){
             var re = new RegExp('^' + searchText, "i");
             var matches = [];
-            var lastItem = $scope.symptoms[$scope.symptoms.length - 1];
+            var lastItem = symptoms[symptoms.length - 1];
             var deferred = $q.defer();
 
             try{
                 //search the array for matching expressions
-                $scope.symptoms.forEach( (symptom) => {
+                symptoms.forEach( (symptom) => {
 
                     //regex match occured
                     if (re.test(symptom.name)){
@@ -19,7 +19,7 @@ angular.module('fixme').factory('$$Infermedica', function($http, $q){
                     //No results were found
                     if (symptom.name === lastItem.name && matches.length === 0){
                         //add other options
-                        loadIntermedicaData.search_phrase(searchText)
+                        $$loadIntermedicaData.search_phrase(searchText)
                             .then(
                                 (response) => {
                                     var symptom_search_results = response.data;

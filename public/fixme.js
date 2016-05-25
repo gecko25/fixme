@@ -1,16 +1,16 @@
 'use strict';
 
-angular.module('fixme').factory('$$Infermedica', function ($http, $q) {
+angular.module('fixme').factory('$$Infermedica', function ($http, $q, $$loadIntermedicaData) {
     return {
-        searchIntermedicaData: function searchIntermedicaData($scope, searchText) {
+        searchIntermedicaData: function searchIntermedicaData(symptoms, searchText) {
             var re = new RegExp('^' + searchText, "i");
             var matches = [];
-            var lastItem = $scope.symptoms[$scope.symptoms.length - 1];
+            var lastItem = symptoms[symptoms.length - 1];
             var deferred = $q.defer();
 
             try {
                 //search the array for matching expressions
-                $scope.symptoms.forEach(function (symptom) {
+                symptoms.forEach(function (symptom) {
 
                     //regex match occured
                     if (re.test(symptom.name)) {
@@ -21,7 +21,7 @@ angular.module('fixme').factory('$$Infermedica', function ($http, $q) {
                     //No results were found
                     if (symptom.name === lastItem.name && matches.length === 0) {
                         //add other options
-                        loadIntermedicaData.search_phrase(searchText).then(function (response) {
+                        $$loadIntermedicaData.search_phrase(searchText).then(function (response) {
                             var symptom_search_results = response.data;
                             console.log(symptom_search_results);
 
@@ -102,7 +102,7 @@ angular.module('fixme').factory('$$Infermedica', function ($http, $q) {
 });
 'use strict';
 
-angular.module('fixme').factory('loadIntermedicaData', function ($http) {
+angular.module('fixme').factory('$$loadIntermedicaData', function ($http) {
     return {
         symptoms: function symptoms() {
             //console.log('Going to load symptom data from Intermedica...')
@@ -307,13 +307,13 @@ angular.module('fixme').directive('fmSettings', function (pageState, $cookies, $
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-angular.module('fixme').directive('fmSymptomPicker', function (loadIntermedicaData) {
+angular.module('fixme').directive('fmSymptomPicker', function ($$loadIntermedicaData) {
     return {
         templateUrl: 'app/templates/pages/symptomPicker.html',
         restrict: 'E',
         controller: function controller($scope, $q, $http, $cookies, $$Infermedica) {
             //on page startup, get data
-            loadIntermedicaData.symptoms().then(function (response) {
+            $$loadIntermedicaData.symptoms().then(function (response) {
                 $scope.symptoms = response.data;
                 console.log('Loaded symptom data from intermedica');
                 console.log($scope.symptoms);
@@ -327,7 +327,7 @@ angular.module('fixme').directive('fmSymptomPicker', function (loadIntermedicaDa
             //TODO: if it doesn't exist, allow user to search
 
             $scope.searchSymptoms = function (searchText) {
-                return $$Infermedica.searchIntermedicaData($scope, searchText).then(function (items) {
+                return $$Infermedica.searchIntermedicaData($scope.symptoms, searchText).then(function (items) {
                     return items;
                 }, function (err) {
                     console.log('There was an error searching for data: ' + err);
