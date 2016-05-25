@@ -1,4 +1,4 @@
-angular.module('fixme').factory('loadIntermedicaData', function($http){
+angular.module('fixme').factory('$$loadIntermedicaData', function($http){
     return{
         symptoms : function(){
             //console.log('Going to load symptom data from Intermedica...')
