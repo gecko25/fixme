@@ -1,4 +1,4 @@
-angular.module('fixme').directive('fmSettings', function(pageState, $cookies, $mdToast){
+angular.module('fixme').directive('fmSettings', function($cookies, $mdToast){
     return {
         templateUrl: 'app/templates/pages/settings.html',
         restrict: 'E',
@@ -45,19 +45,3 @@ angular.module('fixme').directive('fmSettings', function(pageState, $cookies, $m
         }
     }
 })
-
-
-/*
- $http({
- method: 'PATCH',
- url: '/api/user',
- headers: 'Content-Type: application/json',
- data: $scope.data
- }).then((response) => {
- console.log(response);
- pageState.updatePageStage('symptomPicker');
-
- }, (response) => {
- console.log('There was an error!');
- console.log(response);
- });*/

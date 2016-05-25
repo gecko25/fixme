@@ -1,0 +1,52 @@
+<div layout="row" layout-xs="column" ng-cloak>
+
+    <div flex flex-gt-sm="60">
+        <h2>{{currentFollowup.text}}</h2>
+
+        <div class="single-answer" ng-show="currentFollowup.type === 'single'">
+            <md-radio-group ng-model="singleAnswerChoiceId">
+                <md-radio-button value="present" class="md-primary">Yes</md-radio-button>
+                <md-radio-button value="absent" class="md-primary">No</md-radio-button>
+            </md-radio-group>
+
+        </div>
+
+        <div class="multiple-choice" ng-show="currentFollowup.type === 'group_multiple'">
+            <div layout="column" ng-repeat="symptom in currentFollowup.items">
+                <md-checkbox ng-click="toggleSymptom(symptom)" class="md-primary flex">
+                    {{symptom.name}}
+                </md-checkbox>
+            </div>
+        </div>
+
+        <div class="multiple-choice" ng-show="currentFollowup.type === 'group_single'">
+            <md-radio-group ng-model="groupSingleAnswerSymptomId">
+                <md-radio-button ng-repeat="symptom in currentFollowup.items"
+                                 value="{{symptom.id}}"
+                                 class="md-primary">
+                    {{symptom.name}}
+                </md-radio-button>
+            </md-radio-group>
+        </div>
+
+        <md-button ng-click="updateEvidence(currentFollowup.type)">CONTINUE</md-button>
+    </div>
+
+    <div style="background-color:#2196F3" ng-show="possibleDiagnosisExists">&nbsp;</div>
+
+    <div flex flex-gt-sm="35" ng-show="possibleDiagnosisExists" style="padding-left:15px; padding-right:15px">
+        <h2>Possible diagnoses:</h2>
+        <div layout="row" ng-repeat="diagnosis in possibleDiagnoses">
+            <h4 flex="60">{{diagnosis.name}}</h4>
+            <div flex="10">&nbsp;</div>
+            <h4 flex="30">{{diagnosis.probability}}</h4>
+        </div>
+        <p style="font-size:0.7rem">
+            Please note this application is solely for educational purposes and NOT a replacement for your doctor.
+            Please make an appointment with your physican for a proper consultation.
+        </p>
+    </div>
+
+
+
+</div>

@@ -1,4 +1,4 @@
-angular.module('fixme').directive('fmSideNav', function(pageState, $mdSidenav){
+angular.module('fixme').directive('fmSideNav', function($$pageState, $mdSidenav){
     return {
         templateUrl: 'app/templates/baseComponents/sideNav.html',
         restrict: 'E',
@@ -15,7 +15,7 @@ angular.module('fixme').directive('fmSideNav', function(pageState, $mdSidenav){
 
                 }else{
                     $mdSidenav('left').close();
-                    pageState.updatePageStage(newPageState);
+                    $$pageState.updatePageStage(newPageState);
                 }
 
             }
