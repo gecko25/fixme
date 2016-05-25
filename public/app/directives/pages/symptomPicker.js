@@ -1,10 +1,10 @@
-angular.module('fixme').directive('fmSymptomPicker', function($$loadIntermedicaData){
+angular.module('fixme').directive('fmSymptomPicker', function($$infermedicaEndpoints){
     return {
         templateUrl: 'app/templates/pages/symptomPicker.html',
         restrict: 'E',
-        controller: function($scope, $q, $http, $cookies, $$Infermedica){
+        controller: function($scope, $q, $http, $cookies, $timeout, $$Infermedica, $$pageState){
             //on page startup, get data
-            $$loadIntermedicaData.symptoms()
+            $$infermedicaEndpoints.symptoms()
                 .then(
                     (response) => {
                          $scope.symptoms = response.data;
@@ -39,23 +39,22 @@ angular.module('fixme').directive('fmSymptomPicker', function($$loadIntermedicaD
             }
 
             $scope.submitChiefComplaint = function(){
-                var Diagnosis = $$Infermedica.createDiagnosisEntity($scope.selectedSymptoms);
-                Diagnosis.sex = $cookies.getObject($scope.user.email).gender;
-                Diagnosis.age = $cookies.getObject($scope.user.email).age;
+                var sex = $cookies.getObject($scope.user.email).gender;
+                var age = $cookies.getObject($scope.user.email).age;
+                var Diagnosis = $$Infermedica.createInitialDiagnosis(sex, age, $scope.selectedSymptoms);
 
-                console.log('Going to submit:')
-                console.log(Diagnosis)
-                
-                $http({
-                    method: 'POST',
-                    url: '/api/diagnosis',
-                    data: Diagnosis
-                }).then((response) => {
-                    console.log(response.data.question);
-                    //TODO: handle questions
+                $$infermedicaEndpoints.diagnosis(Diagnosis)
+                    .then((response) => {
 
-                    //save Diagnosis to cookies
+                        console.log(response.data);
+                        var followup = response.data.question;
+                        $$Infermedica.setCurrentFollowup(followup);
 
+                        $timeout(function(){
+                            $scope.currentFollowup = followup;
+                        });
+
+                        $$pageState.updatePageStage('diagnosisFollowup');
 
                 }, (response) => {
                     console.log('There was an error!');

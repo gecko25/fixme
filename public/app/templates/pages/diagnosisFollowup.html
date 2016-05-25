@@ -1,0 +1,31 @@
+<div ng-cloak>
+    <h2>{{currentFollowup.text}}</h2>
+
+    <div class="single-answer" ng-show="currentFollowup.type === 'single'">
+        <md-radio-group ng-model="singleAnswerChoiceId">
+            <md-radio-button value="present" class="md-primary">Yes</md-radio-button>
+            <md-radio-button value="absent" class="md-primary">No</md-radio-button>
+        </md-radio-group>
+
+    </div>
+
+    <div class="multiple-choice" ng-show="currentFollowup.type === 'group_multiple'">
+        <div layout="column" ng-repeat="symptom in currentFollowup.items">
+            <md-checkbox ng-click="toggleSymptom(symptom)" class="md-primary flex">
+                {{symptom.name}}
+            </md-checkbox>
+        </div>
+    </div>
+
+    <div class="multiple-choice" ng-show="currentFollowup.type === 'group_single'">
+            <md-radio-group ng-model="groupSingleAnswerSymptomId">
+               <md-radio-button ng-repeat="symptom in currentFollowup.items"
+                                value="{{symptom.id}}"
+                                class="md-primary">
+                   {{symptom.name}}
+               </md-radio-button>
+            </md-radio-group>
+    </div>
+
+    <md-button ng-click="updateEvidence(currentFollowup.type)">CONTINUE</md-button>
+</div>

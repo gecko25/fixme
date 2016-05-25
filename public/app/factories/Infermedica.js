@@ -1,4 +1,17 @@
-angular.module('fixme').factory('$$Infermedica', function($http, $q, $$loadIntermedicaData){
+angular.module('fixme').factory('$$Infermedica', function($http, $q, $$infermedicaEndpoints){
+    var _currentDiagnosis = {
+        sex: '',
+        age: '',
+        evidence: []
+    };
+
+    var _currentFollowup = {
+        type: '',
+        text: '',
+        items: [],
+        extras: {}
+    }
+
     return{
         searchIntermedicaData : function(symptoms, searchText){
             var re = new RegExp('^' + searchText, "i");
@@ -19,7 +32,7 @@ angular.module('fixme').factory('$$Infermedica', function($http, $q, $$loadInter
                     //No results were found
                     if (symptom.name === lastItem.name && matches.length === 0){
                         //add other options
-                        $$loadIntermedicaData.search_phrase(searchText)
+                        $$infermedicaEndpoints.search_phrase(searchText)
                             .then(
                                 (response) => {
                                     var symptom_search_results = response.data;
@@ -52,22 +65,35 @@ angular.module('fixme').factory('$$Infermedica', function($http, $q, $$loadInter
             return deferred.promise;
         },
 
-
-        createDiagnosisEntity : function createDiagnosis(selectedSymptoms){
-            var Diagnosis = {
-                sex: '',
-                age: '',
-                evidence: []
+        createInitialDiagnosis : function(sex, age, symptoms){
+            _currentDiagnosis.sex = sex;
+            _currentDiagnosis.age = age;
+            for (var symptom of symptoms){
+                _currentDiagnosis = this.addSymptom(_currentDiagnosis, symptom.id, 'present');
             };
-
-            for (var symptom of selectedSymptoms){
-                Diagnosis = this.addSymptom(Diagnosis, symptom.id, 'present');
-            };
-
-            return Diagnosis;
-
+            return _currentDiagnosis;
         },
 
+
+        addSymptomsToDiagnosis : function addSymptomsToDiagnosis(selectedSymptoms){
+            for (var symptom of selectedSymptoms){
+                _currentDiagnosis = this.addSymptom(_currentDiagnosis, symptom.id, 'present');
+            };
+            return _currentDiagnosis;
+        },
+
+        getCurrentDiagnosis : function getDiagnosis(){
+            return _currentDiagnosis;
+        },
+
+        setCurrentFollowup : function(followupObject){
+            _currentFollowup = followupObject;
+        },
+
+        getCurrentFollowup : function(){
+            return _currentFollowup ;
+        },
+        
 
         addSymptom : function(Diagnosis, id, choice_id){
             if (Diagnosis.evidence){
