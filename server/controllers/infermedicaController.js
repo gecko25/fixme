@@ -42,8 +42,6 @@ exports.searchText = function(req, res) {
 
 exports.diagnose = function(req, res) {
 
-    console.log(req.body);
-
     var options = {
         url: 'https://api.infermedica.com/v2/diagnosis',
         headers: headers,
@@ -57,7 +55,6 @@ exports.diagnose = function(req, res) {
         if (response)
             res.json(body);
     });
-
-
+    
 };
 
