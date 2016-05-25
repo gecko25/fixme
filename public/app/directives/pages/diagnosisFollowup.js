@@ -4,17 +4,16 @@ angular.module('fixme').directive('fmDiagnosisFollowup', function($$Infermedica,
         restrict: 'E',
         controller: function($scope){
             var additionalEvidence = [];
+            var probabilityThreshold = 0.5;
             $scope.singleAnswerChoiceId = '';
             $scope.groupSingleAnswerSymptomId = '';
+            $scope.possibleDiagnoses = [];
+            $scope.possibleDiagnosisExists = false;
 
-            $scope.textInput = '';
-
-            $scope.test = function(){
-                console.log($scope.groupSingleAnswerSymptomId)
-                console.log($scope.singleAnswerChoiceId)
-            }
+            
 
             $scope.updateEvidence = function updateEvidence(type) {
+                $scope.possibleDiagnoses = [];
                 var currentFollowup = $$Infermedica.getCurrentFollowup();
                 var currentDiagnosis = $$Infermedica.getCurrentDiagnosis();
 
@@ -32,7 +31,6 @@ angular.module('fixme').directive('fmDiagnosisFollowup', function($$Infermedica,
                         }else{
                             $$Infermedica.addSymptom(currentDiagnosis, followupSymptom.id, 'absent')
                         }
-                        
                     };
                  }
 
@@ -54,12 +52,29 @@ angular.module('fixme').directive('fmDiagnosisFollowup', function($$Infermedica,
 
                 console.log('Evidence updated..');
                 console.log($$Infermedica.getCurrentDiagnosis())
-                console.log('Going to ask API again..');
 
 
                 $$infermedicaEndpoints.diagnosis($$Infermedica.getCurrentDiagnosis())
                     .then((response) => {
-                        console.log(response.data.conditions);
+                        var numConditionsToDisplay = 3;
+
+                        if (response.data.conditions.length < numConditionsToDisplay){
+                            numConditionsToDisplay = response.data.conditions.length;
+                        }
+
+                        for (var i =0; i<numConditionsToDisplay; i++){
+                            if (response.data.conditions[i].probability > probabilityThreshold){
+                                $scope.possibleDiagnoses.push(response.data.conditions[i])
+                            }
+                        }
+                        console.log('possible diagnosis')
+                        console.log($scope.possibleDiagnoses)
+                        $scope.possibleDiagnosisExists = $scope.possibleDiagnoses.length > 0;
+                        console.log($scope.possibleDiagnosisExists);
+
+                        console.log('conditions:')
+                        console.log(response.data.conditions)
+
                         var followup = response.data.question;
                         $$Infermedica.setCurrentFollowup(followup);
 
