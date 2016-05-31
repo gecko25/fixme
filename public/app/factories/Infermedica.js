@@ -111,12 +111,6 @@ angular.module('fixme').factory('$$Infermedica', function($http, $q, $$infermedi
             }else{
                 throw Error('Diagnosis object not configured correctly', Diagnosis);
             }
-        },
-
-        setSelectedSymptomsInSearchBar : function(symptoms){
-
         }
-
-
     }
 });

@@ -1,6 +1,6 @@
 <div layout="row" layout-xs="column" ng-cloak>
 
-    <div flex flex-gt-sm="60">
+    <div flex flex-gt-sm="60" style="padding-left: 10px; padding-right:25px;">
         <h2>{{currentFollowup.text}}</h2>
 
         <div class="single-answer" ng-show="currentFollowup.type === 'single'">
@@ -31,7 +31,7 @@
 
 
         <md-button ng-click="updateEvidence(currentFollowup.type)">CONTINUE</md-button>
-        <md-button style="float: right; padding-right:35px;" ng-click="resetEvidence()">RESET SEARCH</md-button>
+        <md-button style="float: right; padding-right:10px;" ng-click="resetEvidence()">RESET SEARCH</md-button>
 
 
     </div>

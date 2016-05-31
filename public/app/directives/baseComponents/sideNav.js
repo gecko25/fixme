@@ -1,4 +1,4 @@
-angular.module('fixme').directive('fmSideNav', function($$pageState, $mdSidenav){
+angular.module('fixme').directive('fmSideNav', function($$pageState, $mdSidenav, $$Infermedica){
     return {
         templateUrl: 'app/templates/baseComponents/sideNav.html',
         restrict: 'E',
@@ -14,6 +14,13 @@ angular.module('fixme').directive('fmSideNav', function($$pageState, $mdSidenav)
                     );
 
                 }else{
+
+                    if (newPageState === 'symptomPicker'){
+                            $scope.possibleDiagnosisExists = false;
+                            $scope.selectedSymptoms = [];
+                            $$Infermedica.removeAllSymptomsFromDiagnosis();
+                    }
+
                     $mdSidenav('left').close();
                     $$pageState.updatePageStage(newPageState);
                 }

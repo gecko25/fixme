@@ -150,10 +150,7 @@ angular.module('fixme').factory('$$Infermedica', function ($http, $q, $$infermed
             } else {
                 throw Error('Diagnosis object not configured correctly', Diagnosis);
             }
-        },
-
-        setSelectedSymptomsInSearchBar: function setSelectedSymptomsInSearchBar(symptoms) {}
-
+        }
     };
 });
 'use strict';
@@ -241,7 +238,7 @@ angular.module('fixme').directive('fmLoginPanel', function () {
 });
 'use strict';
 
-angular.module('fixme').directive('fmSideNav', function ($$pageState, $mdSidenav) {
+angular.module('fixme').directive('fmSideNav', function ($$pageState, $mdSidenav, $$Infermedica) {
     return {
         templateUrl: 'app/templates/baseComponents/sideNav.html',
         restrict: 'E',
@@ -255,6 +252,13 @@ angular.module('fixme').directive('fmSideNav', function ($$pageState, $mdSidenav
                         $scope.animateShake = "shake";
                     }, 0);
                 } else {
+
+                    if (newPageState === 'symptomPicker') {
+                        $scope.possibleDiagnosisExists = false;
+                        $scope.selectedSymptoms = [];
+                        $$Infermedica.removeAllSymptomsFromDiagnosis();
+                    }
+
                     $mdSidenav('left').close();
                     $$pageState.updatePageStage(newPageState);
                 }
