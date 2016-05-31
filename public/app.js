@@ -44,7 +44,7 @@ angular.module('fixme').controller('mainCtrl', function($scope, $mdSidenav, $coo
         $scope.user = u;
         $scope.$apply();
 
-        loadLandingPage($cookies, $scope.user.email, pageState);
+        loadLandingPage($cookies, $scope.user.email, $$pageState);
     }
 
     //diagnosis info
