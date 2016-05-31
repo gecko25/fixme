@@ -73,7 +73,7 @@ angular.module('fixme').factory('$$Infermedica', function ($http, $q, $$infermed
                 for (var _iterator = symptoms[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
                     var symptom = _step.value;
 
-                    _currentDiagnosis = this.addSymptom(_currentDiagnosis, symptom.id, 'present');
+                    _currentDiagnosis = this.addSymptomToDiagnosis(_currentDiagnosis, symptom.id, 'present');
                 }
             } catch (err) {
                 _didIteratorError = true;
@@ -103,7 +103,7 @@ angular.module('fixme').factory('$$Infermedica', function ($http, $q, $$infermed
                 for (var _iterator2 = selectedSymptoms[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
                     var symptom = _step2.value;
 
-                    _currentDiagnosis = this.addSymptom(_currentDiagnosis, symptom.id, 'present');
+                    _currentDiagnosis = this.addSymptomToDiagnosis(_currentDiagnosis, symptom.id, 'present');
                 }
             } catch (err) {
                 _didIteratorError2 = true;
@@ -124,6 +124,10 @@ angular.module('fixme').factory('$$Infermedica', function ($http, $q, $$infermed
             return _currentDiagnosis;
         },
 
+        removeAllSymptomsFromDiagnosis: function addSymptomsToDiagnosis() {
+            _currentDiagnosis.evidence = [];
+        },
+
         getCurrentDiagnosis: function getDiagnosis() {
             return _currentDiagnosis;
         },
@@ -136,7 +140,7 @@ angular.module('fixme').factory('$$Infermedica', function ($http, $q, $$infermed
             return _currentFollowup;
         },
 
-        addSymptom: function addSymptom(Diagnosis, id, choice_id) {
+        addSymptomToDiagnosis: function addSymptomToDiagnosis(Diagnosis, id, choice_id) {
             if (Diagnosis.evidence) {
                 Diagnosis.evidence.push({
                     "id": id,
@@ -146,7 +150,9 @@ angular.module('fixme').factory('$$Infermedica', function ($http, $q, $$infermed
             } else {
                 throw Error('Diagnosis object not configured correctly', Diagnosis);
             }
-        }
+        },
+
+        setSelectedSymptomsInSearchBar: function setSelectedSymptomsInSearchBar(symptoms) {}
 
     };
 });
@@ -282,7 +288,7 @@ angular.module('fixme').directive('fmToolbarHeader', function () {
 });
 'use strict';
 
-angular.module('fixme').directive('fmDiagnosisFollowup', function ($$Infermedica, $$infermedicaEndpoints, $timeout) {
+angular.module('fixme').directive('fmDiagnosisFollowup', function ($$Infermedica, $$infermedicaEndpoints, $timeout, $$pageState) {
     return {
         templateUrl: 'app/templates/pages/diagnosisFollowup.html',
         restrict: 'E',
@@ -294,6 +300,13 @@ angular.module('fixme').directive('fmDiagnosisFollowup', function ($$Infermedica
             $scope.possibleDiagnoses = [];
             $scope.possibleDiagnosisExists = false;
 
+            $scope.resetEvidence = function resetEvidence() {
+                $scope.possibleDiagnosisExists = false;
+                $scope.selectedSymptoms = [];
+                $$Infermedica.removeAllSymptomsFromDiagnosis();
+                $$pageState.updatePageStage('symptomPicker');
+            };
+
             $scope.updateEvidence = function updateEvidence(type) {
                 $scope.possibleDiagnoses = [];
                 var currentFollowup = $$Infermedica.getCurrentFollowup();
@@ -301,7 +314,7 @@ angular.module('fixme').directive('fmDiagnosisFollowup', function ($$Infermedica
 
                 if (type === 'single') {
                     var symptom_id = currentFollowup.items[0].id;
-                    $$Infermedica.addSymptom(currentDiagnosis, symptom_id, $scope.singleAnswerChoiceId);
+                    $$Infermedica.addSymptomToDiagnosis(currentDiagnosis, symptom_id, $scope.singleAnswerChoiceId);
                 }
 
                 if (type === 'group_single') {
@@ -316,9 +329,9 @@ angular.module('fixme').directive('fmDiagnosisFollowup', function ($$Infermedica
 
 
                             if (followupSymptom.id === $scope.groupSingleAnswerSymptomId) {
-                                $$Infermedica.addSymptom(currentDiagnosis, followupSymptom.id, 'present');
+                                $$Infermedica.addSymptomToDiagnosis(currentDiagnosis, followupSymptom.id, 'present');
                             } else {
-                                $$Infermedica.addSymptom(currentDiagnosis, followupSymptom.id, 'absent');
+                                $$Infermedica.addSymptomToDiagnosis(currentDiagnosis, followupSymptom.id, 'absent');
                             }
                         }
                     } catch (err) {
@@ -355,9 +368,9 @@ angular.module('fixme').directive('fmDiagnosisFollowup', function ($$Infermedica
                             var userHasSymptom = idx > -1;
 
                             if (userHasSymptom) {
-                                $$Infermedica.addSymptom(currentDiagnosis, followupSymptom.id, 'present');
+                                $$Infermedica.addSymptomToDiagnosis(currentDiagnosis, followupSymptom.id, 'present');
                             } else {
-                                $$Infermedica.addSymptom(currentDiagnosis, followupSymptom.id, 'absent');
+                                $$Infermedica.addSymptomToDiagnosis(currentDiagnosis, followupSymptom.id, 'absent');
                             }
                         }
                     } catch (err) {
@@ -396,7 +409,6 @@ angular.module('fixme').directive('fmDiagnosisFollowup', function ($$Infermedica
                     console.log('possible diagnosis');
                     console.log($scope.possibleDiagnoses);
                     $scope.possibleDiagnosisExists = $scope.possibleDiagnoses.length > 0;
-                    console.log($scope.possibleDiagnosisExists);
 
                     console.log('conditions:');
                     console.log(response.data.conditions);
