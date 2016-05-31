@@ -69,7 +69,7 @@ angular.module('fixme').factory('$$Infermedica', function($http, $q, $$infermedi
             _currentDiagnosis.sex = sex;
             _currentDiagnosis.age = age;
             for (var symptom of symptoms){
-                _currentDiagnosis = this.addSymptom(_currentDiagnosis, symptom.id, 'present');
+                _currentDiagnosis = this.addSymptomToDiagnosis(_currentDiagnosis, symptom.id, 'present');
             };
             return _currentDiagnosis;
         },
@@ -77,9 +77,13 @@ angular.module('fixme').factory('$$Infermedica', function($http, $q, $$infermedi
 
         addSymptomsToDiagnosis : function addSymptomsToDiagnosis(selectedSymptoms){
             for (var symptom of selectedSymptoms){
-                _currentDiagnosis = this.addSymptom(_currentDiagnosis, symptom.id, 'present');
+                _currentDiagnosis = this.addSymptomToDiagnosis(_currentDiagnosis, symptom.id, 'present');
             };
             return _currentDiagnosis;
+        },
+
+        removeAllSymptomsFromDiagnosis : function addSymptomsToDiagnosis(){
+                _currentDiagnosis.evidence = [];
         },
 
         getCurrentDiagnosis : function getDiagnosis(){
@@ -95,7 +99,7 @@ angular.module('fixme').factory('$$Infermedica', function($http, $q, $$infermedi
         },
         
 
-        addSymptom : function(Diagnosis, id, choice_id){
+        addSymptomToDiagnosis : function(Diagnosis, id, choice_id){
             if (Diagnosis.evidence){
                 Diagnosis.evidence.push(
                     {
@@ -108,7 +112,5 @@ angular.module('fixme').factory('$$Infermedica', function($http, $q, $$infermedi
                 throw Error('Diagnosis object not configured correctly', Diagnosis);
             }
         }
-
-
     }
 });

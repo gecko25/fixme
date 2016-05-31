@@ -1,6 +1,6 @@
 <div layout="row" layout-xs="column" ng-cloak>
 
-    <div flex flex-gt-sm="60">
+    <div flex flex-gt-sm="60" style="padding-left: 10px; padding-right:25px;">
         <h2>{{currentFollowup.text}}</h2>
 
         <div class="single-answer" ng-show="currentFollowup.type === 'single'">
@@ -29,12 +29,16 @@
             </md-radio-group>
         </div>
 
+
         <md-button ng-click="updateEvidence(currentFollowup.type)">CONTINUE</md-button>
+        <md-button style="float: right; padding-right:10px;" ng-click="resetEvidence()">RESET SEARCH</md-button>
+
+
     </div>
 
     <div style="background-color:#2196F3" ng-show="possibleDiagnosisExists">&nbsp;</div>
 
-    <div flex flex-gt-sm="35" ng-show="possibleDiagnosisExists" style="padding-left:15px; padding-right:15px">
+    <div flex flex-gt-sm="35" ng-show="possibleDiagnosisExists" style="padding-left:35px; padding-right:15px">
         <h2>Possible diagnoses:</h2>
         <div layout="row" ng-repeat="diagnosis in possibleDiagnoses">
             <h4 flex="60">{{diagnosis.name}}</h4>
