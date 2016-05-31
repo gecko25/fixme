@@ -26,7 +26,7 @@ angular.module('fixme').directive('fmSettings', function($cookies, $mdToast){
             });
 
             $scope.savePatientData = function(){
-                $cookies.putObject($scope.user.email, $scope.data, {path: 'http://localhost:4001/'})
+                $cookies.putObject($scope.user.email, $scope.data)
 
                 var toast;
                 toast = $mdToast.simple()
