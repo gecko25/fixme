@@ -520,7 +520,7 @@ angular.module('fixme').directive('fmSettings', function ($cookies, $mdToast) {
                 $scope.validationErrorAgeGender = false;
 
                 var toast;
-                toast = $mdToast.simple().textContent('Saved!').action('DIAGNOSE ME').highlightAction(true).position('bottom right').hideDelay(6000);
+                toast = $mdToast.simple().textContent('Success! Go to DIAGNOSE ME page to begin').action('DIAGNOSE ME!').highlightAction(true).position('bottom right').hideDelay(60000);
 
                 $mdToast.show(toast).then(function (response) {
                     if (response == 'ok') {

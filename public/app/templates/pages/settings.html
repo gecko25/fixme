@@ -3,13 +3,14 @@
 
     <md-input-container>
         <label>Age</label>
-        <input required type="number" name="age" step="any" ng-model="data.age" ng-pattern="/^[0-9]/" max="110">
+        <input required type="number" name="age"  ng-model="data.age" max="110">
     </md-input-container>
 
-    <div ng-messages="userSettingsForm.age.$error" style="margin-top:-25px; padding-bottom:15px" role="alert" multiple>
+    <div ng-messages="userSettingsForm.age.$error" style="margin-top:-25px; padding-bottom:15px" md-auto-hide="false" multiple>
         <div ng-message="required" class="error-message">Please specify how old you are.</div>
-        <div ng-message="pattern" class="error-message">That doesn't look like a valid age.</div>
         <div ng-message="max" class="error-message">Wow you are really old! Please put an age less than 110</div>
+        <div ng-message="number" class="error-message">Hmm.. that doesn't look like a valid age.</div>
+
     </div>
 
     <md-radio-group ng-model="data.gender" required>
