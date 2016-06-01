@@ -1,10 +1,17 @@
-<form name="userSettings" ng-submit="savePatientData()" class="settings-container">
+<form name="userSettingsForm" ng-submit="savePatientData()" class="settings-container">
     <p>Please enter some basic information so we can best make a diagnosis.</p>
 
     <md-input-container>
         <label>Age</label>
-        <input type="text" ng-model="data.age" required>
+        <input required type="number" name="age" step="any" ng-model="data.age" ng-pattern="/^[0-9]/" max="110">
     </md-input-container>
+
+    <div ng-messages="userSettingsForm.age.$error" style="margin-top:-25px; padding-bottom:15px" role="alert" multiple>
+        <div ng-message="required" class="error-message">Please specify how old you are.</div>
+        <div ng-message="pattern" class="error-message">That doesn't look like a valid age.</div>
+        <div ng-message="max" class="error-message">Wow you are really old! Please put an age less than 110</div>
+    </div>
+
     <md-radio-group ng-model="data.gender" required>
         <md-radio-button value="female" class="md-primary">Female</md-radio-button>
         <md-radio-button value="male">Male</md-radio-button>

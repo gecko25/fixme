@@ -27,6 +27,7 @@ angular.module('fixme').directive('fmSettings', function($cookies, $mdToast){
 
             $scope.savePatientData = function(){
                 $cookies.putObject($scope.user.email, $scope.data)
+                $scope.validationErrorAgeGender = false;
 
                 var toast;
                 toast = $mdToast.simple()
@@ -42,6 +43,11 @@ angular.module('fixme').directive('fmSettings', function($cookies, $mdToast){
                     }
                 });
             }
+            
+            
+            var validateAgeIsAReasonableNumber = function validateAgeIsAReasonableNumber(age){
+                
+            };
         }
     }
 })

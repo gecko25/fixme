@@ -33,8 +33,8 @@
 
         <div ng-show="diagnosisFollowupValidationError"
              ng-class="animateShake"
-             style="padding-bottom: 10px; color:red; font-size: smaller">
-            Oops! You need to pick something :D
+             style="padding-bottom: 10px;">
+            Oops! You need to pick something.
         </div>
         <md-button ng-click="updateEvidence(currentFollowup.type)">CONTINUE</md-button>
         <md-button style="float: right; padding-right:10px;" ng-click="resetEvidence()">RESET SEARCH</md-button>
@@ -44,7 +44,10 @@
 
     <div style="background-color:#2196F3" ng-show="possibleDiagnosisExists">&nbsp;</div>
 
-    <div flex flex-gt-sm="35" ng-show="possibleDiagnosisExists" style="padding-left:35px; padding-right:15px">
+    <div flex flex-gt-sm="35"
+         ng-show="possibleDiagnosisExists"
+         class="error-message"
+         style="padding-left:35px; padding-right:15px">
         <h2>Possible diagnoses:</h2>
         <div layout="row" ng-repeat="diagnosis in possibleDiagnoses">
             <h4 flex="60">{{diagnosis.name}}</h4>
