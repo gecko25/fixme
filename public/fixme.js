@@ -303,6 +303,7 @@ angular.module('fixme').directive('fmDiagnosisFollowup', function ($$Infermedica
             $scope.groupSingleAnswerSymptomId = '';
             $scope.possibleDiagnoses = [];
             $scope.possibleDiagnosisExists = false;
+            $scope.diagnosisFollowupValidationError = false;
 
             $scope.resetEvidence = function resetEvidence() {
                 $scope.possibleDiagnosisExists = false;
@@ -317,44 +318,63 @@ angular.module('fixme').directive('fmDiagnosisFollowup', function ($$Infermedica
                 var currentDiagnosis = $$Infermedica.getCurrentDiagnosis();
 
                 if (type === 'single') {
-                    console.log('singleAnswerChoiceId', $scope.singleAnswerChoiceId);
-                    var symptom_id = currentFollowup.items[0].id;
-                    $$Infermedica.addSymptomToDiagnosis(currentDiagnosis, symptom_id, $scope.singleAnswerChoiceId);
+                    if ($scope.singleAnswerChoiceId) {
+                        $scope.diagnosisFollowupValidationError = false;
+                        var symptom_id = currentFollowup.items[0].id;
+                        $$Infermedica.addSymptomToDiagnosis(currentDiagnosis, symptom_id, $scope.singleAnswerChoiceId);
+                    } else {
+                        $scope.diagnosisFollowupValidationError = true;
+                        $scope.animateShake = "";
+                        $scope.animateShake = "shake";
+                        setTimeout(function () {
+                            $scope.animateShake = "";
+                        }, 500);
+                    }
                 }
 
                 if (type === 'group_single') {
-                    console.log('groupSingleAnswerSymptomId', $scope.groupSingleAnswerSymptomId);
-                    var _iteratorNormalCompletion = true;
-                    var _didIteratorError = false;
-                    var _iteratorError = undefined;
+                    if ($scope.groupSingleAnswerSymptomId) {
 
-                    try {
-                        for (var _iterator = currentFollowup.items[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                            var followupSymptom = _step.value;
+                        $scope.diagnosisFollowupValidationError = false;
 
+                        var _iteratorNormalCompletion = true;
+                        var _didIteratorError = false;
+                        var _iteratorError = undefined;
 
-                            if (followupSymptom.id === $scope.groupSingleAnswerSymptomId) {
-                                $$Infermedica.addSymptomToDiagnosis(currentDiagnosis, followupSymptom.id, 'present');
-                            } else {
-                                $$Infermedica.addSymptomToDiagnosis(currentDiagnosis, followupSymptom.id, 'absent');
-                            }
-                        }
-                    } catch (err) {
-                        _didIteratorError = true;
-                        _iteratorError = err;
-                    } finally {
                         try {
-                            if (!_iteratorNormalCompletion && _iterator.return) {
-                                _iterator.return();
+                            for (var _iterator = currentFollowup.items[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                                var followupSymptom = _step.value;
+
+                                if (followupSymptom.id === $scope.groupSingleAnswerSymptomId) {
+                                    $$Infermedica.addSymptomToDiagnosis(currentDiagnosis, followupSymptom.id, 'present');
+                                } else {
+                                    $$Infermedica.addSymptomToDiagnosis(currentDiagnosis, followupSymptom.id, 'absent');
+                                }
                             }
+                        } catch (err) {
+                            _didIteratorError = true;
+                            _iteratorError = err;
                         } finally {
-                            if (_didIteratorError) {
-                                throw _iteratorError;
+                            try {
+                                if (!_iteratorNormalCompletion && _iterator.return) {
+                                    _iterator.return();
+                                }
+                            } finally {
+                                if (_didIteratorError) {
+                                    throw _iteratorError;
+                                }
                             }
                         }
-                    }
 
-                    ;
+                        ;
+                    } else {
+                        $scope.diagnosisFollowupValidationError = true;
+                        $scope.animateShake = "";
+                        $scope.animateShake = "shake";
+                        setTimeout(function () {
+                            $scope.animateShake = "";
+                        }, 500);
+                    }
                 }
 
                 if (type === 'group_multiple') {
@@ -396,31 +416,33 @@ angular.module('fixme').directive('fmDiagnosisFollowup', function ($$Infermedica
                     ;
                 }
 
-                $$infermedicaEndpoints.diagnosis($$Infermedica.getCurrentDiagnosis()).then(function (response) {
-                    var numConditionsToDisplay = 3;
+                if (!$scope.diagnosisFollowupValidationError) {
+                    $$infermedicaEndpoints.diagnosis($$Infermedica.getCurrentDiagnosis()).then(function (response) {
+                        var numConditionsToDisplay = 3;
 
-                    if (response.data.conditions.length < numConditionsToDisplay) {
-                        numConditionsToDisplay = response.data.conditions.length;
-                    }
-
-                    for (var i = 0; i < numConditionsToDisplay; i++) {
-                        if (response.data.conditions[i].probability > probabilityThreshold) {
-                            $scope.possibleDiagnoses.push(response.data.conditions[i]);
+                        if (response.data.conditions.length < numConditionsToDisplay) {
+                            numConditionsToDisplay = response.data.conditions.length;
                         }
-                    }
 
-                    $scope.possibleDiagnosisExists = $scope.possibleDiagnoses.length > 0;
+                        for (var i = 0; i < numConditionsToDisplay; i++) {
+                            if (response.data.conditions[i].probability > probabilityThreshold) {
+                                $scope.possibleDiagnoses.push(response.data.conditions[i]);
+                            }
+                        }
 
-                    var followup = response.data.question;
-                    $$Infermedica.setCurrentFollowup(followup);
+                        $scope.possibleDiagnosisExists = $scope.possibleDiagnoses.length > 0;
 
-                    $timeout(function () {
-                        $scope.currentFollowup = followup;
+                        var followup = response.data.question;
+                        $$Infermedica.setCurrentFollowup(followup);
+
+                        $timeout(function () {
+                            $scope.currentFollowup = followup;
+                        });
+                    }, function (response) {
+                        console.log('There was an error in diagnosisFollowup.js!');
+                        console.log(response);
                     });
-                }, function (response) {
-                    console.log('There was an error in diagnosisFollowup.js!');
-                    console.log(response);
-                });
+                }
             };
 
             $scope.toggleSymptom = function toggleSymptom(symptom) {
@@ -434,6 +456,11 @@ angular.module('fixme').directive('fmDiagnosisFollowup', function ($$Infermedica
                 } else {
                     additionalEvidence.push(symptom);
                 }
+            };
+
+            $scope.removeErrorMessage = function removeErrorMessage() {
+                $scope.diagnosisFollowupValidationError = false;
+                $scope.animateShake = '';
             };
         }
 
@@ -558,7 +585,6 @@ angular.module('fixme').directive('fmSymptomPicker', function ($$infermedicaEndp
                         console.log(response);
                     });
                 } else {
-                    console.log('Going to change shake class..');
                     $scope.validationError = true;
                     $scope.animateShake = "shake";
                     setTimeout(function () {
