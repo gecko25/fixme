@@ -3,7 +3,8 @@ angular.module('fixme').factory('$$pageState', function(){
         symptomPicker : true,
         findDoctor: false,
         settings: false,
-        diagnosisFollowup: false
+        diagnosisFollowup: false,
+        about: false
     }
     return{
         getPageState : function(){

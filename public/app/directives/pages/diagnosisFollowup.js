@@ -38,7 +38,6 @@ angular.module('fixme').directive('fmDiagnosisFollowup', function($$Infermedica,
 
                 if (type === 'group_single'){
                     if ($scope.groupSingleAnswerSymptomId){
-
                         $scope.diagnosisFollowupValidationError = false;
 
                         for (var followupSymptom of currentFollowup.items){
@@ -58,8 +57,6 @@ angular.module('fixme').directive('fmDiagnosisFollowup', function($$Infermedica,
                  }
 
                 if (type === 'group_multiple'){
-                    console.log('additionalEvidence', additionalEvidence)
-
                     for (var followupSymptom of currentFollowup.items){
                         var selectedIds = _.pluck(additionalEvidence, 'id');
                         var idx = selectedIds.indexOf(followupSymptom.id);
@@ -73,7 +70,6 @@ angular.module('fixme').directive('fmDiagnosisFollowup', function($$Infermedica,
                     };
                 }
 
-
                 if (!$scope.diagnosisFollowupValidationError){
                     $$infermedicaEndpoints.diagnosis($$Infermedica.getCurrentDiagnosis())
                         .then((response) => {
@@ -85,12 +81,15 @@ angular.module('fixme').directive('fmDiagnosisFollowup', function($$Infermedica,
 
                             for (var i =0; i<numConditionsToDisplay; i++){
                                 if (response.data.conditions[i].probability > probabilityThreshold){
-                                    $scope.possibleDiagnoses.push(response.data.conditions[i])
+                                    var possibleDiagnosis = response.data.conditions[i],
+                                        chance = possibleDiagnosis.probability * 100;
+
+                                    possibleDiagnosis.probability = chance.toFixed(1);
+
+                                    $scope.possibleDiagnoses.push(possibleDiagnosis)
                                 }
                             }
-
                             $scope.possibleDiagnosisExists = $scope.possibleDiagnoses.length > 0;
-
 
                             var followup = response.data.question;
                             $$Infermedica.setCurrentFollowup(followup);

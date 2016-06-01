@@ -186,7 +186,8 @@ angular.module('fixme').factory('$$pageState', function () {
         symptomPicker: true,
         findDoctor: false,
         settings: false,
-        diagnosisFollowup: false
+        diagnosisFollowup: false,
+        about: false
     };
     return {
         getPageState: function getPageState() {
@@ -292,6 +293,15 @@ angular.module('fixme').directive('fmToolbarHeader', function () {
 });
 'use strict';
 
+angular.module('fixme').directive('fmAbout', function () {
+    return {
+        templateUrl: 'app/templates/pages/about.html',
+        restrict: 'E',
+        controller: function controller() {}
+    };
+});
+'use strict';
+
 angular.module('fixme').directive('fmDiagnosisFollowup', function ($$Infermedica, $$infermedicaEndpoints, $timeout, $$pageState) {
     return {
         templateUrl: 'app/templates/pages/diagnosisFollowup.html',
@@ -334,7 +344,6 @@ angular.module('fixme').directive('fmDiagnosisFollowup', function ($$Infermedica
 
                 if (type === 'group_single') {
                     if ($scope.groupSingleAnswerSymptomId) {
-
                         $scope.diagnosisFollowupValidationError = false;
 
                         var _iteratorNormalCompletion = true;
@@ -378,8 +387,6 @@ angular.module('fixme').directive('fmDiagnosisFollowup', function ($$Infermedica
                 }
 
                 if (type === 'group_multiple') {
-                    console.log('additionalEvidence', additionalEvidence);
-
                     var _iteratorNormalCompletion2 = true;
                     var _didIteratorError2 = false;
                     var _iteratorError2 = undefined;
@@ -426,10 +433,14 @@ angular.module('fixme').directive('fmDiagnosisFollowup', function ($$Infermedica
 
                         for (var i = 0; i < numConditionsToDisplay; i++) {
                             if (response.data.conditions[i].probability > probabilityThreshold) {
-                                $scope.possibleDiagnoses.push(response.data.conditions[i]);
+                                var possibleDiagnosis = response.data.conditions[i],
+                                    chance = possibleDiagnosis.probability * 100;
+
+                                possibleDiagnosis.probability = chance.toFixed(1);
+
+                                $scope.possibleDiagnoses.push(possibleDiagnosis);
                             }
                         }
-
                         $scope.possibleDiagnosisExists = $scope.possibleDiagnoses.length > 0;
 
                         var followup = response.data.question;
@@ -537,10 +548,8 @@ angular.module('fixme').directive('fmSymptomPicker', function ($$infermedicaEndp
             //on page startup, get data
             $$infermedicaEndpoints.symptoms().then(function (response) {
                 $scope.symptoms = response.data;
-                console.log('Loaded symptom data from intermedica');
-                console.log($scope.symptoms);
             }, function (response) {
-                console.log('There was an error!' + response);
+                console.log('There was an error in symptomPicker.js!' + response);
             });
 
             $scope.selectedSymptoms = [];
@@ -553,7 +562,7 @@ angular.module('fixme').directive('fmSymptomPicker', function ($$infermedicaEndp
                 return $$Infermedica.searchIntermedicaData($scope.symptoms, searchText).then(function (items) {
                     return items;
                 }, function (err) {
-                    console.log('There was an error searching for data: ' + err);
+                    console.log('There was an error searching for data in symptomPicker.js: ' + err);
                 });
             };
 
@@ -592,8 +601,6 @@ angular.module('fixme').directive('fmSymptomPicker', function ($$infermedicaEndp
                     var Diagnosis = $$Infermedica.createInitialDiagnosis(sex, age, $scope.selectedSymptoms);
 
                     $$infermedicaEndpoints.diagnosis(Diagnosis).then(function (response) {
-
-                        console.log(response.data);
                         var followup = response.data.question;
                         $$Infermedica.setCurrentFollowup(followup);
 
@@ -603,7 +610,7 @@ angular.module('fixme').directive('fmSymptomPicker', function ($$infermedicaEndp
 
                         $$pageState.updatePageStage('diagnosisFollowup');
                     }, function (response) {
-                        console.log('There was an error!');
+                        console.log('There was an error in symptomPicker.js');
                         console.log(response);
                     });
                 }
