@@ -25,10 +25,11 @@
         </md-chip-template>
     </md-chips>
 
-    <div ng-messages="symptompicker.autocomplete.$error">
-        <div ng-message="required">This field is required</div>
+    <div ng-show="validationError && selectedSymptoms.length == 0"
+         ng-class="animateShake"
+         style="padding-top: 15px; color:red; font-size: smaller">
+        Oops! You didn't tell us your symptoms :D
     </div>
-
 
     <md-button type="submit"
                class="md-raised md-primary md-hue-1">

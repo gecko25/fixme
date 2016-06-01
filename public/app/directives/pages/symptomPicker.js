@@ -3,6 +3,8 @@ angular.module('fixme').directive('fmSymptomPicker', function($$infermedicaEndpo
         templateUrl: 'app/templates/pages/symptomPicker.html',
         restrict: 'E',
         controller: function($scope, $q, $http, $cookies, $timeout, $$Infermedica, $$pageState){
+            $scope.validationError = false;
+
             //on page startup, get data
             $$infermedicaEndpoints.symptoms()
                 .then(
@@ -20,6 +22,7 @@ angular.module('fixme').directive('fmSymptomPicker', function($$infermedicaEndpo
             //TODO: if it doesn't exist, allow user to search
 
             $scope.searchSymptoms = function(searchText){
+                $scope.validationError = false;
                 return $$Infermedica.searchIntermedicaData($scope.symptoms, searchText)
                     .then( items => {
                         return items
@@ -39,27 +42,40 @@ angular.module('fixme').directive('fmSymptomPicker', function($$infermedicaEndpo
             }
 
             $scope.submitChiefComplaint = function(){
-                var sex = $cookies.getObject($scope.user.email).gender;
-                var age = $cookies.getObject($scope.user.email).age;
-                var Diagnosis = $$Infermedica.createInitialDiagnosis(sex, age, $scope.selectedSymptoms);
+                if ($scope.selectedSymptoms.length > 0){
+                    $scope.validationError = false;
+                    var sex = $cookies.getObject($scope.user.email).gender;
+                    var age = $cookies.getObject($scope.user.email).age;
+                    var Diagnosis = $$Infermedica.createInitialDiagnosis(sex, age, $scope.selectedSymptoms);
 
-                $$infermedicaEndpoints.diagnosis(Diagnosis)
-                    .then((response) => {
 
-                        console.log(response.data);
-                        var followup = response.data.question;
-                        $$Infermedica.setCurrentFollowup(followup);
+                    $$infermedicaEndpoints.diagnosis(Diagnosis)
+                        .then((response) => {
 
-                        $timeout(function(){
-                            $scope.currentFollowup = followup;
+                            console.log(response.data);
+                            var followup = response.data.question;
+                            $$Infermedica.setCurrentFollowup(followup);
+
+                            $timeout(function(){
+                                $scope.currentFollowup = followup;
+                            });
+
+                            $$pageState.updatePageStage('diagnosisFollowup');
+
+                        }, (response) => {
+                            console.log('There was an error!');
+                            console.log(response);
                         });
-
-                        $$pageState.updatePageStage('diagnosisFollowup');
-
-                }, (response) => {
-                    console.log('There was an error!');
-                    console.log(response);
-                });
+                }else{
+                    console.log('Going to change shake class..')
+                    $scope.validationError = true;
+                    $scope.animateShake = "shake";
+                    setTimeout(
+                        ()=>{
+                            $scope.animateShake = "";
+                        }
+                        ,1000);
+                }
             }
 
 
