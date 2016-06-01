@@ -25,10 +25,17 @@
         </md-chip-template>
     </md-chips>
 
-    <div ng-show="validationError && selectedSymptoms.length == 0"
+    <div class="error-message"
+         ng-show="validationError && selectedSymptoms.length == 0"
          ng-class="animateShake"
-         style="padding-top: 15px; color:red; font-size: smaller">
-        Oops! You didn't tell us your symptoms :D
+         style="padding-top: 15px;">
+        Oops! You didn't tell us your symptoms
+    </div>
+
+    <div class="error-message"
+         ng-show="validationErrorAgeGender && selectedSymptoms.length == 0"
+         style="padding-top: 15px;">
+        Oops! We need to know your age and gender in order to make a diagnosis.
     </div>
 
     <md-button type="submit"

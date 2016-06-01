@@ -73,6 +73,11 @@ a {
   text-decoration: none;
   color: #1565C0; }
 
+.error-message {
+  color: red;
+  font-size: 0.8rem;
+  font-family: 'Roboto Slab'; }
+
 md-toolbar {
   position: relative;
   text-align: right; }

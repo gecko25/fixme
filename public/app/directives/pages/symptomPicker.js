@@ -2,8 +2,9 @@ angular.module('fixme').directive('fmSymptomPicker', function($$infermedicaEndpo
     return {
         templateUrl: 'app/templates/pages/symptomPicker.html',
         restrict: 'E',
-        controller: function($scope, $q, $http, $cookies, $timeout, $$Infermedica, $$pageState){
+        controller: function($scope, $q, $http, $cookies, $timeout, $$Infermedica, $$pageState, $mdToast){
             $scope.validationError = false;
+            $scope.validationErrorAgeGender = false;
 
             //on page startup, get data
             $$infermedicaEndpoints.symptoms()
@@ -42,7 +43,32 @@ angular.module('fixme').directive('fmSymptomPicker', function($$infermedicaEndpo
             }
 
             $scope.submitChiefComplaint = function(){
-                if ($scope.selectedSymptoms.length > 0){
+                var genderAndAgeExist = $cookies.getObject($scope.user.email)
+
+                if (!genderAndAgeExist){
+                    $scope.validationErrorAgeGender = true;
+                        var toast;
+                        toast = $mdToast.simple()
+                            .textContent('Save my gender and age')
+                            .action('SETTINGS')
+                            .highlightAction(true)
+                            .position('bottom right')
+                            .hideDelay(25000);
+
+                        $mdToast.show(toast).then(function(response) {
+                            if ( response == 'ok' ) {
+                                $scope.showContent('settings')
+                            }
+                        });
+                }else if($scope.selectedSymptoms.length == 0){
+                    $scope.validationError = true;
+                    $scope.animateShake = "shake";
+                    setTimeout(
+                        ()=>{
+                            $scope.animateShake = "";
+                        }
+                        ,1000);
+                }else{
                     $scope.validationError = false;
                     var sex = $cookies.getObject($scope.user.email).gender;
                     var age = $cookies.getObject($scope.user.email).age;
@@ -66,15 +92,8 @@ angular.module('fixme').directive('fmSymptomPicker', function($$infermedicaEndpo
                             console.log('There was an error!');
                             console.log(response);
                         });
-                }else{
-                    $scope.validationError = true;
-                    $scope.animateShake = "shake";
-                    setTimeout(
-                        ()=>{
-                            $scope.animateShake = "";
-                        }
-                        ,1000);
                 }
+
             }
 
 
