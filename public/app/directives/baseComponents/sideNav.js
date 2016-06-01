@@ -10,8 +10,7 @@ angular.module('fixme').directive('fmSideNav', function($$pageState, $mdSidenav,
                     $scope.animateShake = "";
                     setTimeout(
                         ()=>{$scope.animateShake = "shake";}
-                        ,0
-                    );
+                        ,0);
 
                 }else{
 

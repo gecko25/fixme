@@ -23,12 +23,13 @@ angular.module('fixme').directive('fmDiagnosisFollowup', function($$Infermedica,
                 var currentDiagnosis = $$Infermedica.getCurrentDiagnosis();
 
                 if (type === 'single'){
+                    console.log('singleAnswerChoiceId', $scope.singleAnswerChoiceId)
                     var symptom_id = currentFollowup.items[0].id;
                     $$Infermedica.addSymptomToDiagnosis(currentDiagnosis, symptom_id, $scope.singleAnswerChoiceId)
                 }
 
                 if (type === 'group_single'){
-                    console.log($scope.groupSingleAnswerSymptomId)
+                    console.log('groupSingleAnswerSymptomId', $scope.groupSingleAnswerSymptomId)
                     for (var followupSymptom of currentFollowup.items){
 
                         if (followupSymptom.id === $scope.groupSingleAnswerSymptomId){
@@ -40,7 +41,7 @@ angular.module('fixme').directive('fmDiagnosisFollowup', function($$Infermedica,
                  }
 
                 if (type === 'group_multiple'){
-                    console.log($scope.groupSingleAnswerSymptomId)
+                    console.log('additionalEvidence', additionalEvidence)
 
                     for (var followupSymptom of currentFollowup.items){
                         var selectedIds = _.pluck(additionalEvidence, 'id');
@@ -54,9 +55,6 @@ angular.module('fixme').directive('fmDiagnosisFollowup', function($$Infermedica,
                         }
                     };
                 }
-
-                console.log('Evidence updated..');
-                console.log($$Infermedica.getCurrentDiagnosis())
 
 
                 $$infermedicaEndpoints.diagnosis($$Infermedica.getCurrentDiagnosis())
@@ -72,12 +70,9 @@ angular.module('fixme').directive('fmDiagnosisFollowup', function($$Infermedica,
                                 $scope.possibleDiagnoses.push(response.data.conditions[i])
                             }
                         }
-                        console.log('possible diagnosis')
-                        console.log($scope.possibleDiagnoses)
+
                         $scope.possibleDiagnosisExists = $scope.possibleDiagnoses.length > 0;
 
-                        console.log('conditions:')
-                        console.log(response.data.conditions)
 
                         var followup = response.data.question;
                         $$Infermedica.setCurrentFollowup(followup);
@@ -87,21 +82,24 @@ angular.module('fixme').directive('fmDiagnosisFollowup', function($$Infermedica,
                         });
 
                     }, (response) => {
-                        console.log('There was an error!');
+                        console.log('There was an error in diagnosisFollowup.js!');
                         console.log(response);
                     });
             }
 
             $scope.toggleSymptom = function toggleSymptom(symptom){
-                var selectedIds = _.pluck(additionalEvidence, 'id');
-                var idx = selectedIds.indexOf(symptom.id);
+                var selectedIds;
 
-                if (idx > -1) {
-                    additionalEvidence.splice(idx, 1);
-                }
-                else {
-                    additionalEvidence.push(symptom);
-                }
+                    selectedIds = _.pluck(additionalEvidence, 'id');
+                    var idx = selectedIds.indexOf(symptom.id);
+
+                    if (idx > -1) {
+                        additionalEvidence.splice(idx, 1);
+                    }
+                    else {
+                        additionalEvidence.push(symptom);
+                    }
+
             }
         }
 
