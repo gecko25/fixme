@@ -33,6 +33,7 @@
 
         <div ng-show="diagnosisFollowupValidationError"
              ng-class="animateShake"
+             class="error-message"
              style="padding-bottom: 10px;">
             Oops! You need to pick something.
         </div>
@@ -46,16 +47,13 @@
 
     <div flex flex-gt-sm="35"
          ng-show="possibleDiagnosisExists"
-         class="error-message"
          style="padding-left:35px; padding-right:15px">
         <h2>Possible diagnoses:</h2>
         <div layout="row" ng-repeat="diagnosis in possibleDiagnoses">
-            <h4 flex="60">{{diagnosis.name}}</h4>
-            <div flex="10">&nbsp;</div>
-            <h4 flex="30">{{diagnosis.probability}}</h4>
+            <h4>{{diagnosis.probability}}% probability of {{diagnosis.name}}</h4>
         </div>
         <p style="font-size:0.7rem">
-            Please note this application is solely for educational purposes and NOT a replacement for your doctor.
+            <sup>**</sup>Please note this application is solely for educational purposes and NOT a replacement for your doctor.
             Please make an appointment with your physican for a proper consultation.
         </p>
     </div>

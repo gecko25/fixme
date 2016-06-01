@@ -11,10 +11,8 @@ angular.module('fixme').directive('fmSymptomPicker', function($$infermedicaEndpo
                 .then(
                     (response) => {
                          $scope.symptoms = response.data;
-                         console.log('Loaded symptom data from intermedica')
-                        console.log($scope.symptoms);
                 },  (response) => {
-                         console.log('There was an error!' + response);
+                         console.log('There was an error in symptomPicker.js!' + response);
                 });
 
             $scope.selectedSymptoms = [];
@@ -28,7 +26,7 @@ angular.module('fixme').directive('fmSymptomPicker', function($$infermedicaEndpo
                     .then( items => {
                         return items
                     }, err => {
-                        console.log('There was an error searching for data: ' + err)
+                        console.log('There was an error searching for data in symptomPicker.js: ' + err)
                     });
             }
 
@@ -74,11 +72,8 @@ angular.module('fixme').directive('fmSymptomPicker', function($$infermedicaEndpo
                     var age = $cookies.getObject($scope.user.email).age;
                     var Diagnosis = $$Infermedica.createInitialDiagnosis(sex, age, $scope.selectedSymptoms);
 
-
                     $$infermedicaEndpoints.diagnosis(Diagnosis)
                         .then((response) => {
-
-                            console.log(response.data);
                             var followup = response.data.question;
                             $$Infermedica.setCurrentFollowup(followup);
 
@@ -89,7 +84,7 @@ angular.module('fixme').directive('fmSymptomPicker', function($$infermedicaEndpo
                             $$pageState.updatePageStage('diagnosisFollowup');
 
                         }, (response) => {
-                            console.log('There was an error!');
+                            console.log('There was an error in symptomPicker.js');
                             console.log(response);
                         });
                 }

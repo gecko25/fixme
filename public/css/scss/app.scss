@@ -6,9 +6,11 @@
 @import 'partials/baseComponents/toolbar';
 @import 'partials/baseComponents/sidenav';
 @import 'partials/baseComponents/loginpanel';
+@import 'partials/baseComponents/footer';
 @import 'partials/pages/symptompicker';
 @import 'partials/pages/settings';
-@import 'partials/baseComponents/footer';
+@import 'partials/pages/about';
+
 
 md-content{
   padding: 10px;

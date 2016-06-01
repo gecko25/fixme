@@ -127,6 +127,27 @@ fm-side-nav {
   -webkit-animation: shake 0.5s ease-out;
           animation: shake 0.5s ease-out; }
 
+footer {
+  width: 300px;
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  margin-left: -150px;
+  font-size: 0.75em;
+  text-align: center;
+  padding-top: 20px; }
+  footer p {
+    padding: 0;
+    margin: 0; }
+  footer .social-icon {
+    height: 30px;
+    width: 30px;
+    padding: 5px;
+    margin: 0 5px; }
+  footer .under-construction {
+    width: 60px;
+    margin: auto; }
+
 fm-symptom-picker md-autocomplete {
   width: 50%;
   margin: 10px auto 0px; }
@@ -170,26 +191,9 @@ md-chip-template {
     text-align: center;
     margin-left: -2.5vw; }
 
-footer {
-  width: 300px;
-  position: absolute;
-  bottom: 5px;
-  left: 50%;
-  margin-left: -150px;
-  font-size: 0.75em;
-  text-align: center;
-  padding-top: 20px; }
-  footer p {
-    padding: 0;
-    margin: 0; }
-  footer .social-icon {
-    height: 30px;
-    width: 30px;
-    padding: 5px;
-    margin: 0 5px; }
-  footer .under-construction {
-    width: 60px;
-    margin: auto; }
+.about {
+  line-height: 150%;
+  padding: 10px 10px 10px 10px; }
 
 md-content {
   padding: 10px; }

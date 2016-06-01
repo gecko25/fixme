@@ -59,11 +59,9 @@ var loadLandingPage = function(cookies, email, $$pageState){
 
     if (patientInfoCookie && patientInfoCookieIsNotEmpty){
         if (patientInfoCookie.gender && patientInfoCookie.age){
-            console.log('Gender and age info exist, setting page to symptom picker');
             $$pageState.updatePageStage('symptomPicker');
         }
     }else{
-        console.log('Gender and age info DONT exist, setting page to settings');
         $$pageState.updatePageStage('settings');
     }
 }
