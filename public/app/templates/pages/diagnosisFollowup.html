@@ -4,7 +4,7 @@
         <h2>{{currentFollowup.text}}</h2>
 
         <div class="single-answer" ng-show="currentFollowup.type === 'single'">
-            <md-radio-group ng-model="singleAnswerChoiceId">
+            <md-radio-group ng-model="singleAnswerChoiceId" ng-click="removeErrorMessage()">
                 <md-radio-button value="present" class="md-primary">Yes</md-radio-button>
                 <md-radio-button value="absent" class="md-primary">No</md-radio-button>
             </md-radio-group>
@@ -22,6 +22,7 @@
         <div class="multiple-choice" ng-show="currentFollowup.type === 'group_single'">
             <md-radio-group ng-model="groupSingleAnswerSymptomId">
                 <md-radio-button ng-repeat="symptom in currentFollowup.items"
+                                 ng-click="removeErrorMessage()"
                                  value="{{symptom.id}}"
                                  class="md-primary">
                     {{symptom.name}}
@@ -30,6 +31,11 @@
         </div>
 
 
+        <div ng-show="diagnosisFollowupValidationError"
+             ng-class="animateShake"
+             style="padding-bottom: 10px; color:red; font-size: smaller">
+            Oops! You need to pick something :D
+        </div>
         <md-button ng-click="updateEvidence(currentFollowup.type)">CONTINUE</md-button>
         <md-button style="float: right; padding-right:10px;" ng-click="resetEvidence()">RESET SEARCH</md-button>
 

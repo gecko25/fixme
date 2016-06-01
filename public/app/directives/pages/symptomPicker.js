@@ -67,7 +67,6 @@ angular.module('fixme').directive('fmSymptomPicker', function($$infermedicaEndpo
                             console.log(response);
                         });
                 }else{
-                    console.log('Going to change shake class..')
                     $scope.validationError = true;
                     $scope.animateShake = "shake";
                     setTimeout(
