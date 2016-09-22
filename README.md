@@ -1,6 +1,6 @@
-Hosted here: http://fixmelathe.herokuapp.com/
+This is a node project using Angular Material that allows users to type in their symptoms, be diagnosed, and recommended doctors near them.
 
-Node.js service that allows users to type in their symptoms, be diagnosed, and recommended doctors near them.
+The project is hosted [here](http://fixmelathe.herokuapp.com/)
 
 ### Getting started ###
 `npm install`   //installs all server-side dependencies from package.json 
@@ -28,3 +28,24 @@ Node.js service that allows users to type in their symptoms, be diagnosed, and r
 - browser-sync
 - ES6 features (transpiled thru babel)
 - google login
+
+
+## Infermedia key ## 
+If you try to clone this project, you'll need a `credentials` file with the infermedica app id and key.
+
+The file is located in `server/config/credenitals.js` and has the following structure:
+
+```javascript
+module.exports = {
+    cookie_secret: '',
+    infermedica: {
+      app_id : '',
+      app_key : ''
+    },
+    betterDoctor: {
+      user_key: ''
+    }
+}
+```
+
+You would need to sign up for a infermedica API key to deploy locally.
