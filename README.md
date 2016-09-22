@@ -1,3 +1,5 @@
+Hosted here: http://fixmelathe.herokuapp.com/
+
 Node.js service that allows users to type in their symptoms, be diagnosed, and recommended doctors near them.
 
 ### Getting started ###
@@ -18,10 +20,11 @@ Node.js service that allows users to type in their symptoms, be diagnosed, and r
 * https://developer.betterdoctor.com
 * http://www.programmableweb.com/category/medical
 
-### Frameworks ###
+### Frameworks & Features ###
 - node.js
 - angular
 - angular material
 - express
 - browser-sync
 - ES6 features (transpiled thru babel)
+- google login
