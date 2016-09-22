@@ -2,7 +2,7 @@ node_modules/
 public/fixme.js.map
 
 #Webstorm
-.idea/workspace.xml
+.idea
 
 #Mac OS
 .DS_Store
